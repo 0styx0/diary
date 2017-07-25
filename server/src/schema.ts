@@ -1,4 +1,5 @@
 import db from './connection';
+import * as dbTypes from './dbTypes';
 
 import {
     GraphQLString,
@@ -29,7 +30,7 @@ const TextPostType = new GraphQLObjectType({
         title: {type: new GraphQLNonNull(GraphQLString)},
         content: {type: new GraphQLNonNull(GraphQLString)},
         created: {type: new GraphQLNonNull(GraphQLString)},
-        comments: {type: new GraphQLList(comments)}
+        comments: {type: new GraphQLList(comments)},
     })
 });
 
@@ -47,6 +48,10 @@ const VideoPostType = new GraphQLObjectType({
 });
 
 
+interface title {
+    title: string
+}
+
 const PostRootType = new GraphQLObjectType({
     name: 'PostSchema',
     description: 'Diary Schema Root',
@@ -57,16 +62,20 @@ const PostRootType = new GraphQLObjectType({
             args: {
                 title: {type: GraphQLString},
             },
-            resolve: function() {
-                return db.models.textPosts.find()
+            resolve: function(_, args: title) {
+
+                return db.models.textPosts.find(args)
             }
         },
         videoPosts: {
             type: new GraphQLList(VideoPostType),
             description: 'Video posts',
-            resolve: function() {
+            args: {
+                title: {type: GraphQLString}
+            },
+            resolve: function(_, args: title) {
 
-                return db.models.videoPosts.find()
+                return db.models.videoPosts.find(args)
             }
         }
     })
@@ -78,6 +87,7 @@ const Mutation = new GraphQLObjectType({
     fields: ()  => ({
         addPost: {
             type: TextPostType,
+            description: 'Add text posts',
             args: {
                 title: {
                     type: new GraphQLNonNull(GraphQLString)
@@ -86,6 +96,9 @@ const Mutation = new GraphQLObjectType({
                     type: new GraphQLNonNull(GraphQLString)
                 },
             },
+            resolve: function(_, args: dbTypes.textPosts) {
+                return new db.models.textPosts(args).save();
+            }
         }
     })
 })
