@@ -11,7 +11,7 @@ import {
 
 
 
-
+// subdocument of TextPostType
 const comments = new GraphQLObjectType({
     name: 'Comments',
     description: 'Comments on the post',
@@ -49,6 +49,20 @@ const VideoPostType = new GraphQLObjectType({
     })
 });
 
+const ImageAlbumType = new GraphQLObjectType({
+    name: 'ImageAlbumPost',
+    description: 'A list of image urls',
+    fields: () => ({
+        _id: {type: new GraphQLNonNull(GraphQLString)},
+        title: {type: new GraphQLNonNull(GraphQLString)},
+        content: {
+            type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString)))
+        },
+        created: {type: new GraphQLNonNull(GraphQLString)}
+
+    })
+})
+
 
 interface title {
     title: string
@@ -79,6 +93,16 @@ const PostRootType = new GraphQLObjectType({
 
                 return db.models.videoPosts.find(args)
             }
+        },
+        imageAlbumPosts: {
+            type: new GraphQLList(ImageAlbumType),
+            description: 'Image albums',
+            args: {
+                title: {type: GraphQLString}
+            },
+            resolve: function(_, args: title) {
+                return db.models.imageAlbums.find(args);
+            }
         }
     })
 });
@@ -98,7 +122,7 @@ const Mutation = new GraphQLObjectType({
                     type: new GraphQLNonNull(GraphQLString)
                 },
             },
-            resolve: function(root: undefined, args: dbTypes.textPosts) {
+            resolve: function(_, args: dbTypes.textPosts) {
                 const newPost: dbTypes.textPosts = sanitize(args);
 
                 return new db.models.textPosts(newPost).save();
@@ -115,11 +139,28 @@ const Mutation = new GraphQLObjectType({
                     type: new GraphQLNonNull(GraphQLString)
                 }
             },
-            resolve: function(root: undefined, args: dbTypes.videoPosts) {
+            resolve: function(_, args: dbTypes.videoPosts) {
 
                const newPost: dbTypes.videoPosts = sanitize(args);
 
                return new db.models.videoPosts(newPost).save();
+            }
+        },
+        addImageAlbum: {
+            type: ImageAlbumType,
+            description: 'Add image albums',
+            args: {
+                title: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                content: {
+                    type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString)))
+                }
+            },
+            resolve(_, args: dbTypes.imageAlbum) {
+
+                const newPost: dbTypes.imageAlbum = sanitize(args);
+                return new db.models.imageAlbums(newPost).save();
             }
         }
 

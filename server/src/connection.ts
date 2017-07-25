@@ -1,27 +1,46 @@
 const  mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+const url = require("url");
+const dbUrl = 'mongodb://localhost:27017/diary';
 
-const url = 'mongodb://localhost:27017/diary';
 
-
-mongoose.connect(url);
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error'))
 
 
-
 export default db;
-
 
 db.once('open', () => {
 
-
    const urlType = {
                     type: String,
-                    match: /^https?:\/\//,
-                    unique: true
+                    unique: true,
+                    validate: {
+                        // url must have a path and a tld
+                        validator: (val: string) => url.parse(val).pathname.length > 1 && val.split('.').length > 1,
+                        message: 'Invalid image URL: {VALUE}'
+                    },
                 };
+
+    const imageType = {
+                type: String,
+                unique: true,
+                validate: {
+                    validator: function(val: string) {
+
+                        const urlChunks = val.split('.');
+
+                        return url.parse(val).pathname.length > 1 &&
+                                urlChunks.length > 2 && // one . for tld, another for image
+                                ["jpg", "jpeg", "png", "jif", "svg",
+                                "tiff", "tif", "gif", "bmp", "webp"]
+                                .indexOf(urlChunks[urlChunks.length - 1].toLowerCase()) !== -1
+                    },
+                    message: 'Invalid image URL: {VALUE}'
+                },
+            };
 
     const commentSchema = new mongoose.Schema({
         content: {
@@ -75,7 +94,8 @@ db.once('open', () => {
 
             title: {
                 type: String,
-                required: true
+                required: true,
+                unique: true
             },
             created: {
                 type: Date,
@@ -84,7 +104,7 @@ db.once('open', () => {
             },
             content: {
                 required: true,
-                type: [urlType],
+                type: [imageType],
             }
 
     });

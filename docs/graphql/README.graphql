@@ -7,10 +7,33 @@
   }
 }
 
+# note: the word after 'mutation' can be anything
 
 # add a post and get back the id
-mutation randomName {
+mutation addTextPost {
   addTextPost(title: "Yay", content: "It works!") {
     _id
+  }
+}
+
+# add a video, get back id and title
+mutation addVideoPost {
+  addVideoPost(title: "new video", content: "https://example.com/video") {
+    _id
+    title
+  }
+}
+
+# add image album, get back title and images
+mutation addImageAlbum {
+  addImageAlbum(
+    title: "Yay!",
+    content: [
+      "http://example.com/image.png"
+      "http://test.com/image.webp"
+    ]
+  ) {
+    title,
+    content
   }
 }
