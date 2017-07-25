@@ -1,0 +1,16 @@
+
+# get all textPosts title and content
+{
+  textPosts {
+    title
+    content
+  }
+}
+
+
+# add a post and get back the id
+mutation addPosts {
+  addPost(title: "Yay", content: "It works!") {
+    _id
+  }
+}
