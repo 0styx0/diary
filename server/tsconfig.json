@@ -6,10 +6,12 @@
         "allowJs": true,
         "noImplicitAny": true,
         "noImplicitThis": true,
+        "strictNullChecks": true,
         "strict": true,
         "alwaysStrict": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
+        "removeComments": true,
         "forceConsistentCasingInFileNames": true,
         "noEmitOnError": true,
         "outDir": "./dist",
@@ -22,6 +24,7 @@
         }
 
     },
+    "compileOnSave": true,
     "exclude": [
         "node_modules"
     ],
