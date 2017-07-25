@@ -11,4 +11,3 @@ app.use('/api', graphsqlHTTP({
 }))
 
 app.listen(4000);
-console.log('Running');
