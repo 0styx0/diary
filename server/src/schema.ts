@@ -1,6 +1,6 @@
 import db from './connection';
 import * as dbTypes from './dbTypes';
-
+import {sanitize} from './helpers/sanitize';
 import {
     GraphQLString,
     GraphQLList,
@@ -98,10 +98,32 @@ const Mutation = new GraphQLObjectType({
                     type: new GraphQLNonNull(GraphQLString)
                 },
             },
-            resolve: function(_, args: dbTypes.textPosts) {
-                return new db.models.textPosts(args).save();
+            resolve: function(root: undefined, args: dbTypes.textPosts) {
+                const newPost: dbTypes.textPosts = sanitize(args);
+
+                return new db.models.textPosts(newPost).save();
+            }
+        },
+        addVideoPost: {
+            type: VideoPostType,
+            description: 'Add videos',
+            args: {
+                title: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                content: {
+                    type: new GraphQLList(new GraphQLNonNull(GraphQLString))
+                }
+            },
+            resolve: function(root: undefined, args: dbTypes.videoPosts) {
+
+                const newPost /*: dbTypes.videoPosts*/ = {
+                }
+
+                return newPost// new db.models.videoPosts(newPost).save();
             }
         }
+
     })
 })
 

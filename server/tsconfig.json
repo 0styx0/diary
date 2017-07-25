@@ -10,7 +10,7 @@
         "strict": true,
         "alwaysStrict": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        //"noUnusedParameters": true,
         "removeComments": true,
         "forceConsistentCasingInFileNames": true,
         "noEmitOnError": true,
