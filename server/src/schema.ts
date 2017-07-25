@@ -20,7 +20,9 @@ const comments = new GraphQLObjectType({
     created: {type: new GraphQLNonNull(GraphQLString)},
     author: {type: new GraphQLNonNull(GraphQLString)}
     })
-})
+});
+
+
 
 const TextPostType = new GraphQLObjectType({
     name: 'TextPost',
@@ -41,7 +43,7 @@ const VideoPostType = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLString)},
         title: {type: new GraphQLNonNull(GraphQLString)},
         content: {
-            type: new GraphQLNonNull(GraphQLString)
+            type: new GraphQLList(new GraphQLNonNull(GraphQLString))
         },
         created: {type: new GraphQLNonNull(GraphQLString)}
     })
@@ -83,9 +85,9 @@ const PostRootType = new GraphQLObjectType({
 
 const Mutation = new GraphQLObjectType({
     name: 'Mutatation',
-    description: 'Mutate a text post',
+    description: 'Mutate collections',
     fields: ()  => ({
-        addPost: {
+        addTextPost: {
             type: TextPostType,
             description: 'Add text posts',
             args: {

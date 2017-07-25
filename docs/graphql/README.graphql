@@ -9,8 +9,8 @@
 
 
 # add a post and get back the id
-mutation addPosts {
-  addPost(title: "Yay", content: "It works!") {
+mutation randomName {
+  addTextPost(title: "Yay", content: "It works!") {
     _id
   }
 }
