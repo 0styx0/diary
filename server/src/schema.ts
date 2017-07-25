@@ -43,7 +43,7 @@ const VideoPostType = new GraphQLObjectType({
         _id: {type: new GraphQLNonNull(GraphQLString)},
         title: {type: new GraphQLNonNull(GraphQLString)},
         content: {
-            type: new GraphQLList(new GraphQLNonNull(GraphQLString))
+            type: new GraphQLNonNull(GraphQLString)
         },
         created: {type: new GraphQLNonNull(GraphQLString)}
     })
@@ -112,15 +112,14 @@ const Mutation = new GraphQLObjectType({
                     type: new GraphQLNonNull(GraphQLString)
                 },
                 content: {
-                    type: new GraphQLList(new GraphQLNonNull(GraphQLString))
+                    type: new GraphQLNonNull(GraphQLString)
                 }
             },
             resolve: function(root: undefined, args: dbTypes.videoPosts) {
 
-                const newPost /*: dbTypes.videoPosts*/ = {
-                }
+               const newPost: dbTypes.videoPosts = sanitize(args);
 
-                return newPost// new db.models.videoPosts(newPost).save();
+               return new db.models.videoPosts(newPost).save();
             }
         }
 
