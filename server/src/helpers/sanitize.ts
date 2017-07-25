@@ -27,29 +27,17 @@ const sanitizeOptions = {
  */
 export function sanitize(toSanitize: any) {
 
+    // if array or object, recurse through it
+    if (typeof toSanitize === 'object') {
 
-    if (typeof toSanitize !== 'object') {
-        return sanitizeHTML(toSanitize, sanitizeOptions, null);
-    }
+        let tmp: any = Array.isArray(toSanitize) ? [] : {};
 
-    const sanitized: any = {};
-
-    return recursiveSanitize(toSanitize);
-
-
-    function recursiveSanitize(obj: any) {
-
-        for (const key in obj) {
-
-            const elt = obj[key];
-
-            if (typeof elt !== 'object'){
-                sanitized[key] = sanitizeHTML(elt, sanitizeOptions, null);
-            }
-            else {
-                sanitized[key] = recursiveSanitize(elt);
-            }
+        for (const key in toSanitize) {
+            tmp[key] = sanitize(toSanitize[key]);
         }
-        return sanitized;
+
+        return tmp;
     }
+
+    return sanitizeHTML(toSanitize, sanitizeOptions, null);
 }
