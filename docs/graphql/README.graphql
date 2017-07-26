@@ -37,3 +37,14 @@ mutation addImageAlbum {
     content
   }
 }
+
+# update a post by replacing its title where id is id_num
+mutation updatePost {
+  updateTextPost(
+    id: "id_num",
+    title: "new title"
+  ) {
+    title
+    content
+    id
+  }
