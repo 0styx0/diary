@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as moment from 'moment';
 
+import './index.css';
+
 interface Props {
     title: string;
     content: string;
@@ -12,9 +14,11 @@ export default function TextPost(props: Props) {
     const date = moment(new Date(props.created)).fromNow();
 
     return (
-        <details>
-          <summary>{props.title} ({date})</summary>
-          <article dangerouslySetInnerHTML={{__html: props.content}} />
-        </details>
+        <article>
+            <details>
+                <summary>{props.title} ({date})</summary>
+                <section dangerouslySetInnerHTML={{__html: props.content}} />
+            </details>
+        </article>
     );
 }
