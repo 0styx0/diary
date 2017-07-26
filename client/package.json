@@ -7,8 +7,12 @@
     "@types/node": "^8.0.16",
     "@types/react": "^15.0.39",
     "@types/react-dom": "^15.5.1",
+    "apollo-client": "^1.9.0-1",
+    "graphql-tag": "^2.4.2",
     "react": "^15.6.1",
+    "react-apollo": "^1.4.8",
     "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.2",
     "react-scripts-ts": "2.4.0"
   },
   "devDependencies": {},

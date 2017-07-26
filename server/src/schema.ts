@@ -28,7 +28,7 @@ const TextPostType = new GraphQLObjectType({
     name: 'TextPost',
     description: 'This is a text only post',
     fields: () => ({
-        _id: {type: new GraphQLNonNull(GraphQLString)},
+        id: {type: new GraphQLNonNull(GraphQLString)},
         title: {type: new GraphQLNonNull(GraphQLString)},
         content: {type: new GraphQLNonNull(GraphQLString)},
         created: {type: new GraphQLNonNull(GraphQLString)},
@@ -40,7 +40,7 @@ const VideoPostType = new GraphQLObjectType({
     name: 'VideoPost',
     description: 'This is a video',
     fields: () => ({
-        _id: {type: new GraphQLNonNull(GraphQLString)},
+        id: {type: new GraphQLNonNull(GraphQLString)},
         title: {type: new GraphQLNonNull(GraphQLString)},
         content: {
             type: new GraphQLNonNull(GraphQLString)
@@ -53,7 +53,7 @@ const ImageAlbumType = new GraphQLObjectType({
     name: 'ImageAlbumPost',
     description: 'A list of image urls',
     fields: () => ({
-        _id: {type: new GraphQLNonNull(GraphQLString)},
+        id: {type: new GraphQLNonNull(GraphQLString)},
         title: {type: new GraphQLNonNull(GraphQLString)},
         content: {
             type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString)))

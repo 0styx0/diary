@@ -1,9 +1,21 @@
 import * as React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import Container from '../../components/Container';
 
-export default class Index extends React.Component<{}, {}> {
+
+interface Props {
+    data: {
+        loading: boolean,
+        error: Object,
+        textPosts: Object
+    };
+}
+
+class Index extends React.Component<Props, {}> {
 
     render() {
+        
         return (
                  <Container
                    heading="Main Page"
@@ -12,3 +24,23 @@ export default class Index extends React.Component<{}, {}> {
                 );
     }
 }
+
+const TextPostQuery = gql`
+    query TextPostQuery($title: String) {
+        textPosts(title: $title) {
+            _id,
+            title,
+            created
+        }
+    }
+`;
+
+const IndexWithData = (graphql(TextPostQuery, {
+    options: {
+        variables: {
+            title: 'Goodbye'
+        }
+    }
+}) as any)(Index);
+
+export default IndexWithData;
