@@ -13,7 +13,8 @@
     "react-apollo": "^1.4.8",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
-    "react-scripts-ts": "2.4.0"
+    "react-scripts-ts": "2.4.0",
+    "tinymce": "^4.6.4"
   },
   "devDependencies": {},
   "scripts": {

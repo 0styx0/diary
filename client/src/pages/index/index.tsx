@@ -15,7 +15,7 @@ interface Props {
 class Index extends React.Component<Props, {}> {
 
     render() {
-        
+
         return (
                  <Container
                    heading="Main Page"
@@ -28,7 +28,7 @@ class Index extends React.Component<Props, {}> {
 const TextPostQuery = gql`
     query TextPostQuery($title: String) {
         textPosts(title: $title) {
-            _id,
+            id,
             title,
             created
         }

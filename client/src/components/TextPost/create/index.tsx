@@ -8,6 +8,8 @@ interface Props {
     mutate: Function;
 }
 
+
+
 class CreateTextPost extends React.Component<Props, {}> {
 
     constructor() {
@@ -49,12 +51,12 @@ class CreateTextPost extends React.Component<Props, {}> {
                 type="text"
                 name="title"
                 onBlur={this.setProgress}
-                required
+                required={true}
               />
               <textarea
                 name="content"
                 onBlur={this.setProgress}
-                required
+                required={true}
               />
               <input type="submit" />
             </form>
@@ -71,6 +73,18 @@ const createTextPostMutation = gql`
         }
     }`;
 
-const CreateTextPostWithMutation = (graphql(createTextPostMutation) as any)(CreateTextPost);
+const updateTextPostMutation = gql`
+    mutation updatePost($title: String, $content: String) {
+        updateTextPost(title: $title, content: $content) {
+            id
+            title
+            content
+        }
+    }
+`;
+
+const CreateTextPostWithMutation = (graphql(createTextPostMutation) as any)(
+    (graphql(updateTextPostMutation) as any)(CreateTextPost)
+);
 
 export default CreateTextPostWithMutation;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 
 import Index from '../../pages/index';
-import CreatePost from '../../pages/create';
+import Publish from '../../pages/publish';
 
 export default function Router() {
 
@@ -16,7 +16,7 @@ export default function Router() {
                 </ul>
             </nav>
             <Switch>
-                <Route path="/post" component={CreatePost}/>
+                <Route path="/post" component={Publish}/>
                 <Route path="/" component={Index}/>
             </Switch>
         </div>
