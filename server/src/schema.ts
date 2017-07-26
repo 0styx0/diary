@@ -128,6 +128,26 @@ const Mutation = new GraphQLObjectType({
                 return new db.models.textPosts(newPost).save();
             }
         },
+        updateTextPost: {
+            type: TextPostType,
+            description: 'Update text post content and title',
+            args: {
+                title: {
+                    type: GraphQLString
+                },
+                content: {
+                    type: GraphQLString
+                },
+                id: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: function(_, args: {id: string}) {
+                const update = sanitize(args);
+
+                return db.models.textPosts.findOneAndUpdate(args.id, update, {new: true, runValidators: true});
+            }
+        },
         addVideoPost: {
             type: VideoPostType,
             description: 'Add videos',
