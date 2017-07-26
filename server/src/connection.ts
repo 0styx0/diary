@@ -4,7 +4,7 @@ const url = require("url");
 const dbUrl = 'mongodb://localhost:27017/diary';
 
 
-mongoose.connect(dbUrl);
+mongoose.connect(dbUrl, {useMongoClient: true});
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error'))
