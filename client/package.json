@@ -17,7 +17,9 @@
     "react-scripts-ts": "2.4.0",
     "tinymce": "^4.6.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/whatwg-fetch": "0.0.33"
+  },
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",

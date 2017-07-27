@@ -16,7 +16,7 @@ nav > ul {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: repeat(4, auto) .9fr;
+    grid-template-columns: repeat(5, auto) .9fr;
     align-items: center;
     background-color: #444;
 }
@@ -63,7 +63,7 @@ nav > ul > li:last-of-type {
 @media (max-width: 640px) {
 
     nav > ul {
-        grid-template-columns: repeat(4, auto) 0fr; /* gets rid of extra space-swallowing cell*/
+        grid-template-columns: repeat(5, auto) 0fr; /* gets rid of extra space-swallowing cell*/
     }
 }
 
