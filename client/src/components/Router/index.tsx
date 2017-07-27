@@ -5,6 +5,7 @@ import Index from '../../pages/index';
 import PublishText from '../../pages/publish/text';
 import PublishImageAlbum from '../../pages/publish/album';
 import TextPosts from '../../pages/textPosts';
+import ImageAlbumPosts from '../../pages/imagePosts';
 
 import './index.css';
 
@@ -26,10 +27,12 @@ export default function Router() {
                       </details>
                     </li>
                     <li><Link to="/entries/text">Text Posts</Link></li>
+                    <li><Link to="/entries/imageAlbums">Pictures</Link></li>
                 </ul>
             </nav>
             <Switch>
                 <Route path="/entries/text" component={TextPosts}/>
+                <Route path="/entries/imageAlbums" component={ImageAlbumPosts}/>
                 <Route path="/post/text" component={PublishText}/>
                 <Route path="/post/pictures" component={PublishImageAlbum}/>
                 <Route path="/" component={Index}/>

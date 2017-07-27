@@ -48,7 +48,7 @@ const VideoPostType = new GraphQLObjectType({
         created: {type: new GraphQLNonNull(GraphQLString)}
     })
 });
-
+// TODO: Add alt attribute
 const ImageAlbumType = new GraphQLObjectType({
     name: 'ImageAlbumPost',
     description: 'A list of image urls',
