@@ -163,6 +163,9 @@ const Mutation = new GraphQLObjectType({
 
                const newPost: dbTypes.videoPosts = sanitize(args);
 
+               // youtube's private mode
+               newPost.content = newPost.content.toString().replace(/\/\/(www.)?youtube\.com/, '//www.youtube-nocookie.com') as any;
+
                return new db.models.videoPosts(newPost).save();
             }
         },

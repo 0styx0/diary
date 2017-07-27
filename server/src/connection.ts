@@ -20,7 +20,7 @@ db.once('open', () => {
                     validate: {
                         // url must have a path and a tld
                         validator: (val: string) => url.parse(val).pathname.length > 1 && val.split('.').length > 1,
-                        message: 'Invalid image URL: {VALUE}'
+                        message: 'Invalid URL: {VALUE}'
                     },
                 };
 
