@@ -5,12 +5,13 @@ import Index from '../../pages/index';
 import Publish from '../../pages/publish';
 import TextPosts from '../../pages/textPosts';
 
+import './index.css';
+
 export default function Router() {
 
     return (
         <div>
             <nav>
-
                 <ul>
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/post">Post</Link></li>
