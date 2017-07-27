@@ -16,7 +16,10 @@ export default function TextPost(props: Props) {
     return (
         <article>
             <details>
-                <summary>{props.title} ({date})</summary>
+                <summary onClick={(e: any) => e.currentTarget.parentNode.parentElement.classList.toggle('activePost')}>
+                    {props.title}
+                    <span className="small">({date})</span>
+                </summary>
                 <section dangerouslySetInnerHTML={{__html: props.content}} />
             </details>
         </article>

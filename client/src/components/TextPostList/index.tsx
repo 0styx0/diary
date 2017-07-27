@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextPost from '../TextPost';
 
+import './index.css';
+
 interface TextPost {
     title: string;
     content: string;
@@ -26,7 +28,7 @@ function TextPostList(props: Props) {
     }
 
     return (
-            <div>
+            <div className="postListContainer"><div>
                 {data.textPosts.map((post: TextPost, i: number) =>
                     <TextPost
                         key={i}
@@ -34,7 +36,7 @@ function TextPostList(props: Props) {
                         content={post.content}
                         created={post.created}
                     />)}
-            </div>
+            </div></div>
             );
 }
 

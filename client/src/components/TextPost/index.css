@@ -1,3 +1,4 @@
-details {
-    width: 80vw;
+.activePost {
+    position: relative;
+    right: 6vw;
 }

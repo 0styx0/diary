@@ -65,7 +65,6 @@ class CreateTextPost extends React.Component<Props, State> {
          (tinymce as any).remove(this.state.editor);
     }
 
-
     saveTitleProgress(e: any) {
 
         this.setState({
@@ -77,7 +76,6 @@ class CreateTextPost extends React.Component<Props, State> {
 
         e.preventDefault();
         e.stopPropagation();
-
 
         this.props.mutate({variables: {
             title: this.state.title,

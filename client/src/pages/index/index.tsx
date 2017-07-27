@@ -3,7 +3,6 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import Container from '../../components/Container';
 
-
 interface Props {
     data: {
         loading: boolean,
