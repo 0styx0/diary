@@ -166,7 +166,7 @@ const Mutation = new GraphQLObjectType({
                return new db.models.videoPosts(newPost).save();
             }
         },
-        addImageAlbum: {
+        addImageAlbumPost: {
             type: ImageAlbumType,
             description: 'Add image albums',
             args: {

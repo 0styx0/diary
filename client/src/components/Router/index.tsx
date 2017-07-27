@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
 
 import Index from '../../pages/index';
-import Publish from '../../pages/publish';
+import PublishText from '../../pages/publish/text';
+import PublishImageAlbum from '../../pages/publish/album';
 import TextPosts from '../../pages/textPosts';
 
 import './index.css';
@@ -29,7 +30,8 @@ export default function Router() {
             </nav>
             <Switch>
                 <Route path="/entries/text" component={TextPosts}/>
-                <Route path="/post/text" component={Publish}/>
+                <Route path="/post/text" component={PublishText}/>
+                <Route path="/post/pictures" component={PublishImageAlbum}/>
                 <Route path="/" component={Index}/>
             </Switch>
         </div>
