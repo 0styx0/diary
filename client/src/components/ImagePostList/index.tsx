@@ -3,8 +3,6 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextPost from '../TextPost';
 
-
-
 interface TextPost {
     title: string;
     content: [string];
@@ -34,7 +32,7 @@ function ImageAlbumPostList(props: Props) {
 
                     let src = '';
 
-                    post.content.forEach((url: string) => src += "<img src='"+url+"' />");
+                    post.content.forEach((url: string) => src += '<img src="' + url + '" />');
 
                     return (
                         <div key={j}>
@@ -44,7 +42,7 @@ function ImageAlbumPostList(props: Props) {
                                 created={post.created}
                             />
                         </div>
-                    )
+                    );
                 }
                 )}
               </div>

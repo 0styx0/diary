@@ -6,6 +6,7 @@ div, ul, li, details, summary {
 
 nav {
     height: calc(5vh + 2vw);
+    max-height: 55px;
     position: relative;
     width: 100%;
     top: 0;

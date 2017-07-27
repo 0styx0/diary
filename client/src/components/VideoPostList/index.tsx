@@ -34,11 +34,13 @@ function VideoPostList(props: Props) {
                         <div key={j}>
                             <TextPost
                                 title={post.title}
-                                content={'<embed width="320" height="240" src="'+post.content +'" allowfullscreen />'}
+                                content={
+                                    '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
+                                }
                                 created={post.created}
                             />
                         </div>
-                    )
+                    );
                 }
                 )}
               </div>
