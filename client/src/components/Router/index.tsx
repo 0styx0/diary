@@ -14,13 +14,22 @@ export default function Router() {
             <nav>
                 <ul>
                     <li><Link to="/">Home</Link></li>
-                    <li><Link to="/post">Post</Link></li>
-                    <li><Link to="/posts/text">Text Posts</Link></li>
+                    <li>
+                      <details>
+                        <summary>Post</summary>
+                        <ul>
+                          <li><Link to="/post/text">Text</Link></li>
+                          <li><Link to="/post/video">Video</Link></li>
+                          <li><Link to="/post/pictures">Pictures</Link></li>
+                        </ul>
+                      </details>
+                    </li>
+                    <li><Link to="/entries/text">Text Posts</Link></li>
                 </ul>
             </nav>
             <Switch>
-                <Route path="/posts/text" component={TextPosts}/>
-                <Route path="/post" component={Publish}/>
+                <Route path="/entries/text" component={TextPosts}/>
+                <Route path="/post/text" component={Publish}/>
                 <Route path="/" component={Index}/>
             </Switch>
         </div>

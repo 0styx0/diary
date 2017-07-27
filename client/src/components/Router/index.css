@@ -1,17 +1,18 @@
-div, ul, li {
+div, ul, li, details, summary {
     padding: 0;
     margin: 0;
+    outline: none;
 }
 
 nav {
-    background-color: grey;
     height: calc(5vh + 2vw);
     position: relative;
     width: 100%;
     top: 0;
+    margin-bottom: 9%;
 }
 
-nav ul {
+nav > ul {
     display: grid;
     width: 100%;
     height: 100%;
@@ -20,7 +21,24 @@ nav ul {
     background-color: #444;
 }
 
-nav li {
+details[open] {
+    width: 100%;
+}
+
+details ul {
+    background-color: #444;
+    position: absolute;
+    width: 100%;
+    padding-top: 2vw;
+}
+
+details li {
+    border-top: 1px solid grey;
+    padding: 5px;
+    background-color: inherit;
+}
+
+nav > ul li {
     list-style-type: none;
     justify-self: end;
     display: flex;
@@ -28,11 +46,15 @@ nav li {
     height: 100%;
     width: 100%;
     justify-content: center;
-    padding: 0 5px;
     text-align: center;
+    position: relative;
 }
 
-nav li:last-of-type {
+nav > ul > li:first-of-type {
+    margin-left: 3vw;
+}
+
+nav > ul > li:last-of-type {
     margin-right: 1rem;
     justify-self: initial;
     padding: 0;
@@ -40,7 +62,7 @@ nav li:last-of-type {
 
 @media (max-width: 640px) {
 
-    nav ul {
+    nav > ul {
         grid-template-columns: repeat(3, auto) 0fr; /* gets rid of extra space-swallowing cell*/
     }
 }
@@ -53,6 +75,6 @@ nav a {
     text-decoration: none;
 }
 
-nav li form, nav li a {
+nav li a, nav details {
     color: #bfbfbf
 }
