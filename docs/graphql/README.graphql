@@ -48,3 +48,16 @@ mutation updatePost {
     content
     id
   }
+}
+
+# add a comment to a post
+mutation addComment {
+  addTextPostComment(
+    authorId: "597ba800cfc22280227018e0",
+    postId: "5977737399fe7e0b404b5085",
+    content: "This is my very first comments on this database"
+  ) {
+    content
+    created
+  }
+}
