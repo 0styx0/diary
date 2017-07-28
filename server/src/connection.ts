@@ -2,7 +2,7 @@ const  mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const url = require("url");
 const dbUrl = 'mongodb://localhost:27017/diary';
-
+import * as isEmail from 'validator/lib/isEmail';
 
 mongoose.connect(dbUrl, {useMongoClient: true});
 const db = mongoose.connection;
@@ -14,41 +14,42 @@ export default db;
 
 db.once('open', () => {
 
-   const urlType = {
-                    type: String,
-                    unique: true,
-                    validate: {
-                        // url must have a path and a tld
-                        validator: (val: string) => url.parse(val).pathname.length > 1 && val.split('.').length > 1,
-                        message: 'Invalid URL: {VALUE}'
-                    },
-                };
+    const urlType = {
+        type: String,
+        unique: true,
+        validate: {
+            // url must have a path and a tld
+            validator: (val: string) => url.parse(val).pathname.length > 1 && val.split('.').length > 1,
+            message: 'Invalid URL: {VALUE}'
+        },
+    };
 
     const imageType = {
-                type: String,
-                unique: true,
-                validate: {
-                    validator: function(val: string) {
+        type: String,
+        unique: true,
+        validate: {
+            validator: function(val: string) {
 
-                        const urlChunks = val.split('.');
+                const urlChunks = val.split('.');
 
-                        return url.parse(val).pathname.length > 1 &&
-                                urlChunks.length > 2 && // one . for tld, another for image
-                                ["jpg", "jpeg", "png", "jif", "svg",
-                                "tiff", "tif", "gif", "bmp", "webp"]
-                                .indexOf(urlChunks[urlChunks.length - 1].toLowerCase()) !== -1
-                    },
-                    message: 'Invalid image URL: {VALUE}'
-                },
-            };
+                return url.parse(val).pathname.length > 1 &&
+                        urlChunks.length > 2 && // one . for tld, another for image
+                        ["jpg", "jpeg", "png", "jif", "svg",
+                        "tiff", "tif", "gif", "bmp", "webp"]
+                        .indexOf(urlChunks[urlChunks.length - 1].toLowerCase()) !== -1
+            },
+            message: 'Invalid image URL: {VALUE}'
+        },
+    };
 
     const commentSchema = new mongoose.Schema({
         content: {
             type: String,
             required: true,
         },
-        author: {
-            type: String,
+        authorId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users',
             required: true
         },
         created: {
@@ -109,9 +110,38 @@ db.once('open', () => {
 
     });
 
+    const userSchema = new mongoose.Schema({
+
+        googleId: {
+            type: String,
+            required: true,
+            unique: true
+        },
+        firstName: {
+            type: String,
+            required: true,
+            match: /^\w+$/
+        },
+        lastName: {
+            type: String,
+            required: true,
+            match: /^\w+$/
+        },
+        email: {
+            type: String,
+            unique: true,
+            validate: {
+                validator: isEmail
+            }
+        }
+    });
+
+    userSchema.index({ firstName: 1, lastName: 1}, { unique: true });
+
     mongoose.model('textPosts', textPostSchema);
     mongoose.model('videoPosts', videoPostSchema);
     mongoose.model('imageAlbums', imageAlbumSchema);
+    mongoose.model('users', userSchema);
 
     /*
     textPost.insertMany([{

@@ -7,7 +7,7 @@ interface textPosts {
 }
 
 interface comments {
-    author: string,
+    authorId: string,
     content: string,
     created: Date
 }
@@ -24,4 +24,11 @@ interface imageAlbum {
     created?: Date
 }
 
-export {textPosts, videoPosts, imageAlbum}
+interface user {
+    firstName: string;
+    lastName: string;
+    googleId: string;
+    email: string;
+}
+
+export {textPosts, videoPosts, imageAlbum, user}
