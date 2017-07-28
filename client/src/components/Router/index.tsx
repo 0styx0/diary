@@ -8,6 +8,7 @@ import PublishVideo from '../../pages/publish/video';
 import TextPosts from '../../pages/textPosts';
 import ImageAlbumPosts from '../../pages/imagePosts';
 import VideoPosts from '../../pages/videoPosts';
+import Login from '../../pages/login';
 
 import './index.css';
 
@@ -31,6 +32,7 @@ export default function Router() {
                     <li><Link to="/entries/text">Text Posts</Link></li>
                     <li><Link to="/entries/imageAlbums">Pictures</Link></li>
                     <li><Link to="/entries/video">Videos</Link></li>
+                    <li><Login /></li>
                 </ul>
             </nav>
             <Switch>
