@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextPost from '../TextPost';
 
@@ -17,6 +17,7 @@ interface Props {
         error: Object,
         textPosts: [TextPost]
     };
+    deleteTextPostMutation: Function;
 }
 
 function TextPostList(props: Props) {
@@ -35,20 +36,41 @@ function TextPostList(props: Props) {
                         title={post.title}
                         content={post.content}
                         created={post.created}
+                        onDelete={() =>
+
+                            props.deleteTextPostMutation({
+                                variables: {
+                                    id: post['id']
+                                }
+                            })
+                        }
                     />)}
             </div></div>
             );
 }
+
+const deleteTextPostMutation = gql`
+    mutation deleteTextPost($id: String!) {
+        deleteTextPost(id: $id) {
+            id
+        }
+    }`;
+
 
 const TextPostQuery = gql`
     query TextPostQuery {
         textPosts {
             title,
             created,
-            content
+            content,
+            id
         }
     }
 `;
 
-const TextPostListWithData = (graphql(TextPostQuery) as any)(TextPostList);
+const TextPostListWithData = compose(
+    graphql(TextPostQuery),
+    graphql(deleteTextPostMutation, {name: 'deleteTextPostMutation'})
+)(TextPostList as any);
+
 export default TextPostListWithData;

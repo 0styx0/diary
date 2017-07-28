@@ -158,7 +158,7 @@ const Mutation = new GraphQLObjectType({
             },
             resolve: function(_, args) {
 
-                return db.models.textPosts.findOneAndRemove(args);
+                return db.models.textPosts.findByIdAndRemove(sanitize(args.id));
             }
         },
         addVideoPost: {

@@ -47,18 +47,14 @@ console.log(this.props)
                                         '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
                                     }
                                     created={post.created}
-                                    onDelete={(e) => {
-
-                                        e.stopPropagation();
-
+                                    onDelete={(e) =>
 
                                         this.props.deleteVideoPostMutation({
                                             variables: {
                                                 id: post['id']
                                             }
                                         });
-                                        console.log(post['id'])
-                                    }}
+                                    }
                                 />
                             </div>
                         );
