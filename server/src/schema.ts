@@ -148,6 +148,19 @@ const Mutation = new GraphQLObjectType({
                 return db.models.textPosts.findOneAndUpdate(args.id, update, {new: true, runValidators: true});
             }
         },
+        deleteTextPost: {
+            type: TextPostType,
+            description: 'Delete a text post',
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: function(_, args) {
+
+                return db.models.textPosts.findOneAndRemove(args);
+            }
+        },
         addVideoPost: {
             type: VideoPostType,
             description: 'Add videos',
@@ -167,6 +180,19 @@ const Mutation = new GraphQLObjectType({
                newPost.content = newPost.content.toString().replace(/\/\/(www.)?youtube\.com/, '//www.youtube-nocookie.com') as any;
 
                return new db.models.videoPosts(newPost).save();
+            }
+        },
+        deleteVideoPost: {
+            type: VideoPostType,
+            description: 'Delete videos',
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: function(_, args: {id: string}) {
+
+                return db.models.videoPosts.findByIdAndRemove(sanitize(args.id));
             }
         },
         addImageAlbumPost: {

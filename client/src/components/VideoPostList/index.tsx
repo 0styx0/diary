@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextPost from '../TextPost';
 
@@ -15,48 +15,82 @@ interface Props {
         error: Object,
         videoPosts: [TextPost]
     };
+    deleteVideoPostMutation: Function;
 }
 
-function VideoPostList(props: Props) {
+class VideoPostList extends React.Component<Props, {}> {
 
-    const data = props.data;
-
-    if (data.loading) {
-        return null;
+    constructor() {
+        super();
+        // this.deletePost = this.deletePost.bind(this);
     }
 
-    return (
-            <div className="postListContainer">
-              <div>
-                {data.videoPosts.map((post: TextPost, j: number) => {
+    render() {
 
-                    return (
-                        <div key={j}>
-                            <TextPost
-                                title={post.title}
-                                content={
-                                    '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
-                                }
-                                created={post.created}
-                            />
-                        </div>
-                    );
-                }
-                )}
-              </div>
+console.log(this.props)
+        const data = this.props.data;
+
+        if (data.loading) {
+            return null;
+        }
+
+        return (
+            <div className="postListContainer">
+                <div>
+                    {data.videoPosts.map((post: TextPost, j: number) => {
+
+                        return (
+                            <div key={j}>
+                                <TextPost
+                                    title={post.title}
+                                    content={
+                                        '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
+                                    }
+                                    created={post.created}
+                                    onDelete={(e) => {
+
+                                        e.stopPropagation();
+
+
+                                        this.props.deleteVideoPostMutation({
+                                            variables: {
+                                                id: post['id']
+                                            }
+                                        });
+                                        console.log(post['id'])
+                                    }}
+                                />
+                            </div>
+                        );
+                    }
+                    )}
+                </div>
             </div>
-            );
+        );
+    }
 }
+
+const deleteVideoPostMutation = gql`
+    mutation deleteVideoPost($id: String!) {
+        deleteVideoPost(id: $id) {
+            id
+        }
+    }`;
 
 const VideoPostQuery = gql`
     query VideoPostQuery {
         videoPosts {
             title,
             created,
-            content
+            content,
+            id
         }
     }
 `;
 
-const ImageAlbumPostListWithData = (graphql(VideoPostQuery) as any)(VideoPostList);
+const ImageAlbumPostListWithData = compose(
+    graphql(VideoPostQuery),
+    graphql(deleteVideoPostMutation, {name: 'deleteVideoPostMutation'})
+)(VideoPostList as any);
+
 export default ImageAlbumPostListWithData;

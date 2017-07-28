@@ -7,6 +7,7 @@ interface Props {
     title: string;
     content: string;
     created: Date;
+    onDelete: Function;
 }
 
 export default function TextPost(props: Props) {
@@ -19,6 +20,7 @@ export default function TextPost(props: Props) {
                 <summary onClick={(e: any) => e.currentTarget.parentNode.parentElement.classList.toggle('activePost')}>
                     {props.title}
                     <span className="small">({date})</span>
+                    <button type="button" onClick={(e) => props.onDelete(e)} className="delete">Delete</button>
                 </summary>
                 <section dangerouslySetInnerHTML={{__html: props.content}} />
             </details>

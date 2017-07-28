@@ -45,7 +45,7 @@ class CreateTextPost extends React.Component<Props, State> {
         tinymce.init({
 
           selector: `#editor`,
-          skin_url: `${process.env.PUBLIC_URL}/skins/lightgray`,
+          skin_url: `/skins/lightgray`,
           plugins: 'wordcount table fullscreen autolink autoresize help image paste code',
           menubar: 'view help edit tools',
           valid_elements: 'abbr[!title],h1,h2,h3,h4,h5,h6,img[!src|alt],p,a[!href],table,td,tr,th,tbody,thead,tfoot' +

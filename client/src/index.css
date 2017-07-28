@@ -7,3 +7,10 @@ body {
 .small {
   font-size: small;
 }
+
+button.delete {
+  height: 20px;
+  width: 46px;
+  background-color: red;
+  color: white;
+}
