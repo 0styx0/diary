@@ -50,6 +50,18 @@ mutation updatePost {
   }
 }
 
+mutation addUser {
+  addUser(
+		googleId: "1234", # by the google sign in api
+    email: "test@test.com",
+    firstName: "Bob",
+    lastName: "Son"
+  ) {
+    id
+    email
+  }
+}
+
 # add a comment to a post
 mutation addComment {
   addTextPostComment(
