@@ -211,6 +211,19 @@ const Mutation = new GraphQLObjectType({
                 const newPost: dbTypes.imageAlbum = sanitize(args);
                 return new db.models.imageAlbums(newPost).save();
             }
+        },
+        deleteImageAlbumPost: {
+            type: ImageAlbumType,
+            description: 'Delete image album',
+            args: {
+                id: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: function(_, args: {id: string}) {
+
+                return db.models.imageAlbums.findByIdAndRemove(sanitize(args.id));
+            }
         }
 
     })

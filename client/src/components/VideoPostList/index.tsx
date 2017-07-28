@@ -37,28 +37,25 @@ console.log(this.props)
         return (
             <div className="postListContainer">
                 <div>
-                    {data.videoPosts.map((post: TextPost, j: number) => {
+                    {data.videoPosts.map((post: TextPost, j: number) =>
 
-                        return (
-                            <div key={j}>
-                                <TextPost
-                                    title={post.title}
-                                    content={
-                                        '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
-                                    }
-                                    created={post.created}
-                                    onDelete={(e) =>
+                        <div key={j}>
+                            <TextPost
+                                title={post.title}
+                                content={
+                                    '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
+                                }
+                                created={post.created}
+                                onDelete={(e) =>
 
-                                        this.props.deleteVideoPostMutation({
-                                            variables: {
-                                                id: post['id']
-                                            }
-                                        });
-                                    }
-                                />
-                            </div>
-                        );
-                    }
+                                    this.props.deleteVideoPostMutation({
+                                        variables: {
+                                            id: post['id']
+                                        }
+                                    })
+                                }
+                            />
+                        </div>
                     )}
                 </div>
             </div>
