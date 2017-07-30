@@ -9,16 +9,22 @@
   "author": "DovidM",
   "license": "ISC",
   "dependencies": {
+    "@types/body-parser": "^1.16.4",
     "@types/express": "^4.0.36",
     "@types/express-graphql": "0.0.33",
     "@types/graphql": "^0.10.1",
+    "@types/jwt-simple": "^0.5.33",
+    "@types/statuses": "^1.2.28",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "express-graphql": "^0.6.6",
     "graphql": "^0.10.5",
+    "jwt-simple": "^0.5.1",
     "mongodb": "^2.2.30",
     "mongoose": "^4.11.4",
-    "sanitize-html": "^1.14.1"
+    "sanitize-html": "^1.14.1",
+    "typings": "^2.1.1",
+    "validator": "^8.0.0"
   },
   "devDependencies": {
     "@types/node": "^8.0.16"
