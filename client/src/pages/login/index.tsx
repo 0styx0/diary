@@ -63,7 +63,10 @@ class Login extends React.Component<{},{}> {
 
     fetch('http://localhost:4000/signin', {
       method: 'post',
-      body: JSON.stringify(signinInfo)
+      body: JSON.stringify(signinInfo),
+      headers: {
+            "Content-Type": "application/json"
+        }
     });
   };
 
