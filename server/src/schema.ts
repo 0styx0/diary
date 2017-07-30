@@ -146,29 +146,6 @@ const Mutation = new GraphQLObjectType({
     name: 'Mutatation',
     description: 'Mutate collections',
     fields: ()  => ({
-        addUser: {
-            type: UserType,
-            description: 'Add user',
-            args: {
-                firstName: {
-                    type: new GraphQLNonNull(GraphQLString)
-                },
-                lastName: {
-                    type: new GraphQLNonNull(GraphQLString)
-                },
-                googleId: {
-                    type: new GraphQLNonNull(GraphQLString)
-                },
-                email: {
-                    type: new GraphQLNonNull(GraphQLString)
-                }
-            },
-            resolve: function(_, args: dbTypes.user) {
-
-                return new db.models.users(sanitize(args)).save();
-            }
-
-        },
         addTextPost: {
             type: TextPostType,
             description: 'Add text posts',
