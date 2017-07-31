@@ -31,4 +31,4 @@ interface user {
     email: string;
 }
 
-export {textPosts, videoPosts, imageAlbum, user}
+export {textPosts, videoPosts, imageAlbum, user, comments}
