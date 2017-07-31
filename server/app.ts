@@ -10,6 +10,11 @@ import config from './config';
 
 import schema from './src/schema';
 
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  // application specific logging, throwing an error, or other logic here
+});
+
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -69,28 +74,28 @@ app.post('/signin', async function(req, res) {
     }
 });
 
-app.use(function(req, res, next) {
+// app.use(function(req, res, next) {
 
-    interface jwt {
-        firstName: string;
-        lastName: string;
-        id: string;
-        email: string;
-    }
+//     interface jwt {
+//         firstName: string;
+//         lastName: string;
+//         id: string;
+//         email: string;
+//     }
 
-    const token = (req.get("authorization") || '').split('Bearer ')[1];
+//     const token = (req.get("authorization") || '').split('Bearer ')[1];
 
-    if (req.body.query &&
-        req.body.query.indexOf('mutation') !== -1 &&
-        (!token || (jsonwebtoken.verify(token, config.jwtSecret) as jwt).id != '597e55a61303110263f73287')) {
+//     if (req.body.query &&
+//         req.body.query.indexOf('mutation') !== -1 &&
+//         (!token || (jsonwebtoken.verify(token, config.jwtSecret) as jwt).id != '597e55a61303110263f73287')) {
 
-        return res.status(400).end();
-    }
-    else {
+//         return res.status(400).end();
+//     }
+//     else {
 
-        next();
-    }
-});
+//         next();
+//     }
+// });
 
 app.use('/api', graphsqlHTTP({
     schema,

@@ -18,7 +18,15 @@ const CommentType = new GraphQLObjectType({
     fields: () => ({
     content: {type: new GraphQLNonNull(GraphQLString)},
     created: {type: new GraphQLNonNull(GraphQLString)},
-    author: {type: new GraphQLNonNull(GraphQLString)}
+    author: {
+        type: new GraphQLNonNull(UserType),
+        resolve: async function(comment) {
+            console.log(comment)
+            // console.log(db.models.users.find({_id: comment.authorId}));
+            console.log(await db.models.users.findById(comment.authorId));
+            return await db.models.users.findById(comment.authorId);
+        }
+    }
     })
 });
 
