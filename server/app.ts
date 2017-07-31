@@ -1,8 +1,12 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as graphsqlHTTP from 'express-graphql';
-
+import addUserToDb from './src/helpers/addUserToDb';
 import googleAuth from './src/helpers/verifyGoogleAuth';
+import * as jsonwebtoken from 'jsonwebtoken';
+import config from './config';
+
+
 
 import schema from './src/schema';
 
@@ -14,7 +18,7 @@ app.use(function(req, res, next) {
 
   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
 
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "OPTIONS, POST, GET, PUT");
 
   if (req.method === 'OPTIONS') {
@@ -24,14 +28,68 @@ app.use(function(req, res, next) {
   next()
 });
 
-app.post('/signin', function(req, res) {
 
-    if (req.body.jwt && req.body.googleId) {
+/**
+ * Checks if user has valid jwt from google and upserts user into db
+ */
+app.post('/signin', async function(req, res) {
 
-        googleAuth(req.body.jwt, req.body.googleId);
+    const googleJwt = await googleAuth(req.body.googleJwt);
+
+    if (googleJwt) {
+
+        let [firstName, lastName]: string[] = googleJwt.name.split(' ');
+
+        const userInfo = await addUserToDb({
+            googleId: googleJwt.sub,
+            email: googleJwt.email,
+            firstName,
+            lastName
+        });
+
+
+        const jwtInfo = {
+            id: userInfo._id.toString() as string,
+            email: userInfo.email as string,
+            firstName,
+            lastName
+        };
+
+        // now switching to own jwt, don't want to be so tied to google
+        const jwt = jsonwebtoken.sign(jwtInfo, config.jwtSecret, {
+            expiresIn: '1h',
+            subject: jwtInfo.id.toString()
+        });
+
+        return res.send(jwt);
     }
-    
-    return res.end();
+    else {
+
+       res.end();
+    }
+});
+
+app.use(function(req, res, next) {
+
+    interface jwt {
+        firstName: string;
+        lastName: string;
+        id: string;
+        email: string;
+    }
+
+    const token = (req.get("authorization") || '').split('Bearer ')[1];
+
+    if (req.body.query &&
+        req.body.query.indexOf('mutation') !== -1 &&
+        (!token || (jsonwebtoken.verify(token, config.jwtSecret) as jwt).id != '597e55a61303110263f73287')) {
+
+        return res.status(400).end();
+    }
+    else {
+
+        next();
+    }
 });
 
 app.use('/api', graphsqlHTTP({

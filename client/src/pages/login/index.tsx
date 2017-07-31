@@ -57,17 +57,17 @@ class Login extends React.Component<{},{}> {
     console.log(this.googleUser.getAuthResponse().id_token);
 
     const signinInfo = {
-        jwt: this.googleUser.getAuthResponse().id_token,
-        googleId: this.googleUser.getBasicProfile().getId()
+        googleJwt: this.googleUser.getAuthResponse().id_token
     };
 
     fetch('http://localhost:4000/signin', {
       method: 'post',
       body: JSON.stringify(signinInfo),
       headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": JSON.stringify(signinInfo)
         }
-    });
+    }).then(response => response.text()).then(text => window.sessionStorage.setItem('jwt', text));
   };
 
   /**
