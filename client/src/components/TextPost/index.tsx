@@ -8,10 +8,12 @@ interface Props {
     title: string;
     content: string;
     created: Date;
+    id?: string; // only needed for deletions
     onDelete: Function;
     comments?: Array<{
         content: string;
         created: Date;
+        id: string;
         author: {
             firstName: string;
             lastName: string;
@@ -29,7 +31,7 @@ export default function TextPost(props: Props) {
                 <summary onClick={(e: any) => e.currentTarget.parentNode.parentElement.classList.toggle('activePost')}>
                     {props.title}
                     <span className="small">({date})</span>
-                    
+
                     <DeleteButton onDelete={props.onDelete} />
                 </summary>
                 <section dangerouslySetInnerHTML={{__html: props.content}} />
@@ -38,6 +40,7 @@ export default function TextPost(props: Props) {
                     props.comments ?
                       <CommentList
                         comments={props.comments}
+                        postId={props.id || ''}// it won't ever be empty string, but appeasing typescript
                       />
                     : ''
                 }

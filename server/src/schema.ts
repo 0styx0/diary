@@ -18,6 +18,7 @@ const CommentType = new GraphQLObjectType({
     fields: () => ({
         content: {type: new GraphQLNonNull(GraphQLString)},
         created: {type: new GraphQLNonNull(GraphQLString)},
+        id: {type: new GraphQLNonNull(GraphQLString)},
         author: {
             type: new GraphQLNonNull(UserType),
             resolve: async function(comment: dbTypes.comments) {

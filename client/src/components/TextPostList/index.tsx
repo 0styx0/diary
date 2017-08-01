@@ -9,9 +9,11 @@ interface TextPost {
     title: string;
     content: string;
     created: Date;
+    id: string;
     comments?: Array<{
         content: string;
         created: Date;
+        id: string;
         author: {
             firstName: string;
             lastName: string;
@@ -32,7 +34,7 @@ function TextPostList(props: Props) {
 
     const data = props.data;
 
-    if (data.loading) {
+    if (!data.textPosts) {
         return null;
     }
 
@@ -44,6 +46,7 @@ function TextPostList(props: Props) {
                         title={post.title}
                         content={post.content}
                         created={post.created}
+                        id={post.id}
                         comments={post.comments}
                         onDelete={() =>
 
@@ -76,6 +79,7 @@ const TextPostQuery = gql`
             comments {
                 content,
                 created,
+                id
                 author {
                     firstName,
                     lastName
