@@ -57,7 +57,8 @@ app.post('/signin', async function(req, res) {
             id: userInfo._id.toString() as string,
             email: userInfo.email as string,
             firstName,
-            lastName
+            lastName,
+            admin: userInfo._id.toString() == config.admin
         };
 
         // now switching to own jwt, don't want to be so tied to google

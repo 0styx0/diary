@@ -29,7 +29,8 @@ export default function TextPost(props: Props) {
                 <summary onClick={(e: any) => e.currentTarget.parentNode.parentElement.classList.toggle('activePost')}>
                     {props.title}
                     <span className="small">({date})</span>
-                    <button type="button" onClick={(e) => e.stopPropagation() || props.onDelete(e)} className="delete">Delete</button>
+                    
+                    <DeleteButton onDelete={props.onDelete} />
                 </summary>
                 <section dangerouslySetInnerHTML={{__html: props.content}} />
 
