@@ -14,12 +14,14 @@ export default function Comment(props: Props) {
 
     const date = moment(new Date(props.created)).fromNow();
 
-    return <details className="comment">
-                <summary>
-                    <span className="author">{props.author}</span>
-                    <span className="small">({date})</span>
-                    <DeleteButton onDelete={props.onDelete}/>
-                </summary>
-                <div className="content" dangerouslySetInnerHTML={{__html: props.content}} />
-            </details>
+    return (
+        <details className="comment">
+            <summary>
+                <span className="author">{props.author}</span>
+                <span className="small">({date})</span>
+                <DeleteButton onDelete={props.onDelete}/>
+            </summary>
+            <div className="content" dangerouslySetInnerHTML={{__html: props.content}} />
+        </details>
+    );
 }

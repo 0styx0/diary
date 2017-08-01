@@ -18,7 +18,7 @@ interface TextPost {
             firstName: string;
             lastName: string;
         }
-    }>
+    }>;
 }
 
 interface Props {
@@ -39,7 +39,8 @@ function TextPostList(props: Props) {
     }
 
     return (
-            <div className="postListContainer"><div>
+        <div className="postListContainer">
+            <div>
                 {data.textPosts.map((post: TextPost, i: number) =>
                     <TextPost
                         key={i}
@@ -52,13 +53,14 @@ function TextPostList(props: Props) {
 
                             props.deleteTextPostMutation({
                                 variables: {
-                                    id: post['id']
+                                    id: post.id
                                 }
                             })
                         }
                     />)}
-            </div></div>
-            );
+            </div>
+        </div>
+    );
 }
 
 const deleteTextPostMutation = gql`
@@ -67,7 +69,6 @@ const deleteTextPostMutation = gql`
             id
         }
     }`;
-
 
 const TextPostQuery = gql`
     query TextPostQuery {

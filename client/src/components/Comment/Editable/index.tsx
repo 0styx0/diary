@@ -9,10 +9,11 @@ interface Props {
 
 export default function EditableComment(props: Props) {
 
-
-    return <article className="editable comment">
-                <div contentEditable={props.allowEdits && !!sessionStorage.getItem('jwt')} className="content" />
-                <button onClick={props.onSave}>Post</button>
-                <button onClick={props.onPreview}>Preview</button>
-            </article>
+    return (
+        <article className="editable comment">
+            <div contentEditable={props.allowEdits && !!sessionStorage.getItem('jwt')} className="content" />
+            <button onClick={props.onSave}>Post</button>
+            <button onClick={props.onPreview}>Preview</button>
+        </article>
+    );
 }

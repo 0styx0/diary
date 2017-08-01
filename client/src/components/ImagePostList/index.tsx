@@ -7,6 +7,7 @@ interface TextPost {
     title: string;
     content: [string];
     created: Date;
+    id: string;
 }
 
 interface Props {
@@ -45,13 +46,13 @@ function ImageAlbumPostList(props: Props) {
 
                                     props.deleteImageAlbumPostMutation({
                                         variables: {
-                                            id: post['id']
+                                            id: post.id
                                         }
                                     })
                                 }
                             />
                         </div>
-                    )
+                    );
                 })}
               </div>
             </div>

@@ -7,6 +7,7 @@ interface TextPost {
     title: string;
     content: string;
     created: Date;
+    id: string;
 }
 
 interface Props {
@@ -49,7 +50,7 @@ class VideoPostList extends React.Component<Props, {}> {
 
                                     this.props.deleteVideoPostMutation({
                                         variables: {
-                                            id: post['id']
+                                            id: post.id
                                         }
                                     })
                                 }

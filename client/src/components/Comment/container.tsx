@@ -13,9 +13,7 @@ interface Props {
     mutate: Function;
 }
 
-
 class CommentContainer extends React.Component<Props, {}> {
-
 
     onDelete = () => {
 
@@ -28,12 +26,14 @@ class CommentContainer extends React.Component<Props, {}> {
     }
 
     render() {
-        return <Comment
-                 onDelete={this.onDelete}
-                 created={this.props.created}
-                 content={this.props.content}
-                 author={this.props.author}
-               />
+        return (
+            <Comment
+                onDelete={this.onDelete}
+                created={this.props.created}
+                content={this.props.content}
+                author={this.props.author}
+            />
+        );
     }
 }
 

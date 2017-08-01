@@ -13,7 +13,8 @@ const networkInterface = createNetworkInterface({
 });
 
 networkInterface.use([{
-  applyMiddleware(req, next) {
+  applyMiddleware(req: any, next: Function) {
+
     if (!req.options.headers) {
 
       req.options.headers = new Headers();  // Create the header object if needed.

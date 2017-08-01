@@ -12,11 +12,10 @@ interface Props {
             firstName: string;
             lastName: string;
         };
-    }>
+    }>;
 }
 
 export default function CommentList(props: Props) {
-
 
     if (!props.comments) {
         return <span />;
