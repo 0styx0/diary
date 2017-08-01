@@ -87,7 +87,7 @@ app.post('/signin', async function(req, res) {
 
 //     if (req.body.query &&
 //         req.body.query.indexOf('mutation') !== -1 &&
-//         (!token || (jsonwebtoken.verify(token, config.jwtSecret) as jwt).id != '597e55a61303110263f73287')) {
+//         (!token || (jsonwebtoken.verify(token, config.jwtSecret) as jwt).id != config.admin)) {
 
 //         return res.status(400).end();
 //     }

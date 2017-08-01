@@ -1,0 +1,30 @@
+.comment {
+    position: relative;
+    margin: 5px 0
+}
+
+.comment {
+    padding: 2rem;
+    height: 8rem;
+    background-color: #fff!important;
+    border: 3px solid #000
+}
+
+.deleteReply {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background-color: red;
+    color: #fff
+}
+
+.author {
+    position: relative;
+    right: 15px;
+    bottom: 15px
+}
+
+
+.content {
+    margin-top: 10px
+}

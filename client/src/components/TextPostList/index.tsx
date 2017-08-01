@@ -9,6 +9,14 @@ interface TextPost {
     title: string;
     content: string;
     created: Date;
+    comments?: Array<{
+        content: string;
+        created: Date;
+        author: {
+            firstName: string;
+            lastName: string;
+        }
+    }>
 }
 
 interface Props {
@@ -36,6 +44,7 @@ function TextPostList(props: Props) {
                         title={post.title}
                         content={post.content}
                         created={post.created}
+                        comments={post.comments}
                         onDelete={() =>
 
                             props.deleteTextPostMutation({
@@ -64,6 +73,14 @@ const TextPostQuery = gql`
             created,
             content,
             id
+            comments {
+                content,
+                created,
+                author {
+                    firstName,
+                    lastName
+                }
+            }
         }
     }
 `;

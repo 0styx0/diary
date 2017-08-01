@@ -7,7 +7,11 @@ function TextPosts() {
     return (
             <Container
                 heading="Text Posts"
-                children={<TextPostList />}
+                children={
+                    <div>
+                      <TextPostList />
+                    </div>
+                }
             />
             );
 }
