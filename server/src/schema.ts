@@ -221,6 +221,30 @@ const Mutation = new GraphQLObjectType({
 
             }
         },
+        deleteTextPostComment: {
+            type: CommentType,
+            description: 'Delete a comment',
+            args: {
+                commentId: {
+                    type: new GraphQLNonNull(GraphQLString)
+                },
+                postId: {
+                    type: new GraphQLNonNull(GraphQLString)
+                }
+            },
+            resolve: function(_, args: {commentId: string, postId: string}) {
+
+                const sanitized = sanitize(args);
+
+                return db.models.textPosts.findByIdAndUpdate(sanitized.postId, {
+                    $pull: {
+                        comments: {
+                            _id: sanitized.commentId,
+                        }
+                    }
+                });
+            }
+        },
         deleteTextPost: {
             type: TextPostType,
             description: 'Delete a text post',
