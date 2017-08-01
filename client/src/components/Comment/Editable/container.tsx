@@ -1,8 +1,7 @@
 import * as React from 'react';
 import  EditableComment from './';
 import getJWT from '../../../helpers/getJWT';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, gql } from 'react-apollo';
 
 import { markdown } from 'markdown';
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, gql } from 'react-apollo';
 import Container from '../../components/Container';
 
 interface Props {

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { graphql, compose } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, compose, gql } from 'react-apollo';
 import TextPost from '../TextPost';
 
 interface TextPost {

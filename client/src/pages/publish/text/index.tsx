@@ -11,8 +11,7 @@ import 'tinymce/plugins/image';
 import 'tinymce/plugins/paste';
 import 'tinymce/plugins/code';
 
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, gql } from 'react-apollo';
 
 import './index.css';
 
