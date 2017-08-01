@@ -37,7 +37,7 @@ export default function CommentList(props: Props) {
                 />
             )
         }
-        {sessionStorage.getItem('jwt') ? <EditableCommentContainer /> : ''}
+        {sessionStorage.getItem('jwt') ? <EditableCommentContainer postId={props.postId} /> : ''}
         </div>
     );
 
