@@ -15,8 +15,10 @@ import { graphql, gql } from 'react-apollo';
 
 import './index.css';
 
+import { TextPostQuery, TextPostType } from '../../../graphql/textPosts';
+
 interface Props {
-    mutate: Function;
+    addTextPost: Function;
 }
 
 interface State {
@@ -76,10 +78,33 @@ class CreateTextPost extends React.Component<Props, State> {
         e.preventDefault();
         e.stopPropagation();
 
-        this.props.mutate({variables: {
-            title: this.state.title,
-            content: this.state.editor.getContent()
-        }});
+        let [title, content] = [this.state.title, this.state.editor.getContent()];
+
+        this.props.addTextPost({
+            variables: {
+                title,
+                content
+            },
+            // store: apollo's cache, addTextPost: destructured return info from graphql
+            update: (store, { data: { addTextPost } }) => {
+                this.updateStoreAfterPost(store, addTextPost, {title, content});
+            }
+        });
+    }
+
+    updateStoreAfterPost(store, textPost: TextPostType, info) {
+
+        let storage;
+
+        try {
+            storage = store.readQuery({query: TextPostQuery});
+        } catch(e) {
+            storage = {textPosts: []};
+        }
+
+        storage.textPosts.push(textPost);
+
+        store.writeQuery({query: TextPostQuery, data: storage });
     }
 
     render() {
@@ -97,12 +122,22 @@ class CreateTextPost extends React.Component<Props, State> {
 const createTextPostMutation = gql`
     mutation createTextPost($title: String!, $content: String!) {
         addTextPost(title: $title, content: $content) {
+            title,
+            created,
+            content,
             id
-            title
-            content
+            comments {
+                content,
+                created,
+                id
+                author {
+                    firstName,
+                    lastName
+                }
+            }
         }
     }`;
 
-const CreateTextPostWithMutation = (graphql(createTextPostMutation) as any)(CreateTextPost);
+const CreateTextPostWithMutation = (graphql(createTextPostMutation, {name: 'addTextPost'}) as any)(CreateTextPost);
 
 export default CreateTextPostWithMutation;

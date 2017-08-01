@@ -28,6 +28,7 @@ networkInterface.use([{
 
 const client = new ApolloClient({
   networkInterface,
+  dataIdFromObject: (o: {id: string}) => o.id
 });
 
 ReactDOM.render((

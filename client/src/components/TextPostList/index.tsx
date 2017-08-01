@@ -4,27 +4,13 @@ import TextPost from '../TextPost';
 
 import './index.css';
 
-interface TextPost {
-    title: string;
-    content: string;
-    created: Date;
-    id: string;
-    comments?: Array<{
-        content: string;
-        created: Date;
-        id: string;
-        author: {
-            firstName: string;
-            lastName: string;
-        }
-    }>;
-}
+import { TextPostQuery, TextPostType } from '../../graphql/textPosts';
 
 interface Props {
     data: {
         loading: boolean,
         error: Object,
-        textPosts: [TextPost]
+        textPosts: [TextPostType]
     };
     deleteTextPostMutation: Function;
 }
@@ -40,7 +26,7 @@ function TextPostList(props: Props) {
     return (
         <div className="postListContainer">
             <div>
-                {data.textPosts.map((post: TextPost, i: number) =>
+                {data.textPosts.map((post: TextPostType, i: number) =>
                     <TextPost
                         key={i}
                         title={post.title}
@@ -68,26 +54,6 @@ const deleteTextPostMutation = gql`
             id
         }
     }`;
-
-const TextPostQuery = gql`
-    query TextPostQuery {
-        textPosts {
-            title,
-            created,
-            content,
-            id
-            comments {
-                content,
-                created,
-                id
-                author {
-                    firstName,
-                    lastName
-                }
-            }
-        }
-    }
-`;
 
 const TextPostListWithData = compose(
     graphql(TextPostQuery),
