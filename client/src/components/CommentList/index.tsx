@@ -1,5 +1,6 @@
 import * as React from 'react';
 import CommentContainer from '../Comment/container';
+import EditableCommentContainer from '../Comment/Editable/container';
 
 interface Props {
     postId: string;
@@ -36,6 +37,7 @@ export default function CommentList(props: Props) {
                 />
             )
         }
+        {sessionStorage.getItem('jwt') ? <EditableCommentContainer /> : ''}
         </div>
     );
 

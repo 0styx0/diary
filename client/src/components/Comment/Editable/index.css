@@ -1,0 +1,8 @@
+.editable.comment {
+    border: 2px inset black;
+}
+
+.editable .content {
+    height: 29vh;
+    padding: 5%;
+}
