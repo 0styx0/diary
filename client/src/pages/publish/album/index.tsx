@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { ImageAlbumPostCreation } from '../../../graphql/imageAlbums/';
 
 interface Props {
     mutate: Function;
@@ -79,15 +80,6 @@ class CreateAlbumPost extends React.Component<Props, State> {
     }
 }
 
-const createAlbumPostMutation = gql`
-    mutation createAlbumPost($title: String!, $content: [String!]!) {
-        addImageAlbumPost(title: $title, content: $content) {
-            id
-            title
-            content
-        }
-    }`;
-
-const CreateAlbumPostWithMutation = (graphql(createAlbumPostMutation) as any)(CreateAlbumPost);
+const CreateAlbumPostWithMutation = (graphql(ImageAlbumPostCreation) as any)(CreateAlbumPost);
 
 export default CreateAlbumPostWithMutation;

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { graphql, compose, gql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import TextPost from '../TextPost';
+import { VideoPostQuery, VideoPostDeletion } from '../../graphql/videoPosts/';
 
 interface TextPost {
     title: string;
@@ -29,7 +30,7 @@ class VideoPostList extends React.Component<Props, {}> {
 
         const data = this.props.data;
 
-        if (data.loading) {
+        if (!data.videoPosts) {
             return null;
         }
 
@@ -62,27 +63,9 @@ class VideoPostList extends React.Component<Props, {}> {
     }
 }
 
-const deleteVideoPostMutation = gql`
-    mutation deleteVideoPost($id: String!) {
-        deleteVideoPost(id: $id) {
-            id
-        }
-    }`;
-
-const VideoPostQuery = gql`
-    query VideoPostQuery {
-        videoPosts {
-            title,
-            created,
-            content,
-            id
-        }
-    }
-`;
-
 const ImageAlbumPostListWithData = compose(
     graphql(VideoPostQuery),
-    graphql(deleteVideoPostMutation, {name: 'deleteVideoPostMutation'})
+    graphql(VideoPostDeletion, {name: 'deleteVideoPostMutation'})
 )(VideoPostList as any);
 
 export default ImageAlbumPostListWithData;

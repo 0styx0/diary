@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { graphql, gql } from 'react-apollo';
 import Container from '../../components/Container';
 
 interface Props {
@@ -23,22 +22,4 @@ class Index extends React.Component<Props, {}> {
     }
 }
 
-const TextPostQuery = gql`
-    query TextPostQuery($title: String) {
-        textPosts(title: $title) {
-            id,
-            title,
-            created
-        }
-    }
-`;
-
-const IndexWithData = (graphql(TextPostQuery, {
-    options: {
-        variables: {
-            title: 'Goodbye'
-        }
-    }
-}) as any)(Index);
-
-export default IndexWithData;
+export default Index;

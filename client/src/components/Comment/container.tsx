@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { graphql, gql } from 'react-apollo';
-
+import { graphql } from 'react-apollo';
+import { TextPostCommentDeletion } from '../../graphql/textPosts/comment';
 import Comment from './';
 
 interface Props {
@@ -36,13 +36,6 @@ class CommentContainer extends React.Component<Props, {}> {
     }
 }
 
-const deleteTextPostCommentMutation = gql`
-    mutation deleteTextPostComment($postId: String!, $commentId: String!) {
-        deleteTextPostComment(postId: $postId, commentId: $commentId) {
-            id
-        }
-    }`;
-
-const CommentContainerWithMutation = (graphql(deleteTextPostCommentMutation) as any)(CommentContainer);
+const CommentContainerWithMutation = (graphql(TextPostCommentDeletion) as any)(CommentContainer);
 
 export default CommentContainerWithMutation;

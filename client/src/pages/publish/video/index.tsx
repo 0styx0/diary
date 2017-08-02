@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { VideoPostCreation } from '../../../graphql/videoPosts/';
 
 interface Props {
     mutate: Function;
@@ -58,15 +59,6 @@ class CreateVideoPost extends React.Component<Props, State> {
     }
 }
 
-const createVideoPostMutation = gql`
-    mutation createVideoPost($title: String!, $content: String!) {
-        addVideoPost(title: $title, content: $content) {
-            id
-            title
-            content
-        }
-    }`;
-
-const CreateVideoPostWithMutation = (graphql(createVideoPostMutation) as any)(CreateVideoPost);
+const CreateVideoPostWithMutation = (graphql(VideoPostCreation) as any)(CreateVideoPost);
 
 export default CreateVideoPostWithMutation;

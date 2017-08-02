@@ -1,8 +1,8 @@
 import * as React from 'react';
 import  EditableComment from './';
 import getJWT from '../../../helpers/getJWT';
-import { graphql, gql } from 'react-apollo';
-
+import { graphql } from 'react-apollo';
+import { TextPostCommentCreation } from '../../../graphql/textPosts/comment';
 import { markdown } from 'markdown';
 
 interface Props {
@@ -69,13 +69,6 @@ class EditableCommentContainer extends React.Component<Props, State> {
     }
 }
 
-const addTextPostCommentMutation = gql`
-    mutation addTextPostComment($postId: String!, $authorId: String!, $content: String!) {
-        addTextPostComment(postId: $postId, authorId: $authorId, content: $content) {
-            id
-        }
-    }`;
-
-const EditableCommentContainerWithMutation = (graphql(addTextPostCommentMutation) as any)(EditableCommentContainer);
+const EditableCommentContainerWithMutation = (graphql(TextPostCommentCreation) as any)(EditableCommentContainer);
 
 export default EditableCommentContainerWithMutation;

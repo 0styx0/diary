@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { compose, graphql, gql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import TextPost from '../TextPost';
 
 import './index.css';
 
-import { TextPostQuery, TextPostType } from '../../graphql/textPosts';
+import { TextPostQuery, TextPostDeletion, TextPostType } from '../../graphql/textPosts/';
 
 interface Props {
     data: {
@@ -48,16 +48,9 @@ function TextPostList(props: Props) {
     );
 }
 
-const deleteTextPostMutation = gql`
-    mutation deleteTextPost($id: String!) {
-        deleteTextPost(id: $id) {
-            id
-        }
-    }`;
-
 const TextPostListWithData = compose(
     graphql(TextPostQuery),
-    graphql(deleteTextPostMutation, {name: 'deleteTextPostMutation'})
+    graphql(TextPostDeletion, {name: 'deleteTextPostMutation'})
 )(TextPostList as any);
 
 export default TextPostListWithData;

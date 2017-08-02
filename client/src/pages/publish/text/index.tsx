@@ -11,11 +11,11 @@ import 'tinymce/plugins/image';
 import 'tinymce/plugins/paste';
 import 'tinymce/plugins/code';
 
-import { graphql, gql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 
 import './index.css';
 
-import { TextPostQuery, TextPostType } from '../../../graphql/textPosts';
+import { TextPostQuery, TextPostCreation, TextPostType } from '../../../graphql/textPosts/';
 
 interface Props {
     addTextPost: Function;
@@ -136,25 +136,6 @@ class CreateTextPost extends React.Component<Props, State> {
     }
 }
 
-const createTextPostMutation = gql`
-    mutation createTextPost($title: String!, $content: String!) {
-        addTextPost(title: $title, content: $content) {
-            title,
-            created,
-            content,
-            id
-            comments {
-                content,
-                created,
-                id
-                author {
-                    firstName,
-                    lastName
-                }
-            }
-        }
-    }`;
-
-const CreateTextPostWithMutation = (graphql(createTextPostMutation, {name: 'addTextPost'}) as any)(CreateTextPost);
+const CreateTextPostWithMutation = (graphql(TextPostCreation, {name: 'addTextPost'}) as any)(CreateTextPost);
 
 export default withApollo(CreateTextPostWithMutation);

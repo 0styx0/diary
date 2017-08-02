@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { compose, graphql, gql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import TextPost from '../TextPost';
+import { ImageAlbumPostQuery, ImageAlbumPostDeletion } from '../../graphql/imageAlbums/';
 
 interface TextPost {
     title: string;
@@ -58,27 +59,9 @@ function ImageAlbumPostList(props: Props) {
             );
 }
 
-const deleteImageAlbumPostMutation = gql`
-    mutation deleteImageAlbumPost($id: String!) {
-        deleteImageAlbumPost(id: $id) {
-            id
-        }
-    }`;
-
-const ImageAlbumPostQuery = gql`
-    query ImageAlbumPostQuery {
-        imageAlbumPosts {
-            title,
-            created,
-            content,
-            id
-        }
-    }
-`;
-
 const ImageAlbumPostListWithData = compose(
     graphql(ImageAlbumPostQuery),
-    graphql(deleteImageAlbumPostMutation, {name: 'deleteImageAlbumPostMutation'})
+    graphql(ImageAlbumPostDeletion, {name: 'deleteImageAlbumPostMutation'})
 )(ImageAlbumPostList as any);
 
 export default ImageAlbumPostListWithData;
