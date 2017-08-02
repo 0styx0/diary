@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { graphql } from 'react-apollo';
-import { VideoPostCreation } from '../../../graphql/videoPosts/';
+import { VideoPostQuery, VideoPostCreation } from '../../../graphql/videoPosts/';
 
 import withSaving from '../withSaving';
 
@@ -20,16 +20,6 @@ interface State {
 
 class CreateVideoPost extends React.Component<Props, State> {
 
-    constructor() {
-
-        super();
-
-        this.state = {
-            title: '',
-            content: ''
-        };
-    }
-
     render() {
 
         return (
@@ -43,7 +33,8 @@ class CreateVideoPost extends React.Component<Props, State> {
 }
 
 const CreateVideoPostWithMutation = (graphql(VideoPostCreation) as any)(withSaving(CreateVideoPost, {
-    graphqlSaveMethod: 'mutate'
+    graphqlSaveMethod: 'mutate',
+    graphqlQuery: VideoPostQuery
 }));
 
 export default CreateVideoPostWithMutation;

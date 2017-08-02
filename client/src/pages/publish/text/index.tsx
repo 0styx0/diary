@@ -13,15 +13,21 @@ import 'tinymce/plugins/code';
 
 import { graphql, withApollo } from 'react-apollo';
 
+import withSaving from '../withSaving';
+
 import './index.css';
 
-import { TextPostQuery, TextPostCreation, TextPostType } from '../../../graphql/textPosts/';
+import { TextPostQuery, TextPostCreation } from '../../../graphql/textPosts/';
 
 interface Props {
     addTextPost: Function;
     client: {
         query: Function
     };
+    progressSaver: {
+        onInput: (e: any) => null
+    };
+    dbSaver?: any;
 }
 
 interface State {
@@ -30,19 +36,6 @@ interface State {
 }
 
 class CreateTextPost extends React.Component<Props, State> {
-
-    constructor() {
-
-        super();
-
-        this.saveTitleProgress = this.saveTitleProgress.bind(this);
-        this.saveToDB = this.saveToDB.bind(this);
-
-        this.state = {
-            editor: null,
-            title: ''
-        };
-    }
 
     /**
      * Preload textposts (used in @see components/TextPostList)
@@ -74,6 +67,17 @@ class CreateTextPost extends React.Component<Props, State> {
             this.setState({
                 editor
             });
+
+            editor.on('blur', () => {
+
+                const fakeEvent = { // tinymce doesn't have save event stuff as normal inputs
+                    target: {
+                        name: 'content',
+                        value: editor.getContent()
+                    }
+                };
+                this.props.progressSaver.onInput(fakeEvent);
+            });
           }
         });
     }
@@ -83,52 +87,11 @@ class CreateTextPost extends React.Component<Props, State> {
          (tinymce as any).remove(this.state.editor);
     }
 
-    saveTitleProgress(e: any) {
-
-        this.setState({
-            title: (e.target as HTMLInputElement).value
-        });
-    }
-
-    saveToDB(e: any) {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        let [title, content] = [this.state.title, this.state.editor.getContent()];
-
-        this.props.addTextPost({
-            variables: {
-                title,
-                content
-            },
-            // store: apollo's cache, addTextPost: destructured return info from graphql
-            update: (store, { data: { addTextPost } }) => {
-                this.updateStoreAfterPost(store, addTextPost);
-            }
-        });
-    }
-
-    updateStoreAfterPost(store, textPost: TextPostType) {
-
-        let storage;
-
-        try {
-            storage = store.readQuery({query: TextPostQuery});
-        } catch (e) {
-            storage = {textPosts: []};
-        }
-
-        storage.textPosts.push(textPost);
-
-        store.writeQuery({query: TextPostQuery, data: storage });
-    }
-
     render() {
 
         return (
-            <form onSubmit={this.saveToDB}>
-                <input type="text" onBlur={this.saveTitleProgress} />
+            <form onSubmit={this.props.dbSaver}>
+                <input type="text" name="title" {...this.props.progressSaver} />
                 <textarea id="editor" />
                 <input type="submit" />
             </form>
@@ -136,6 +99,11 @@ class CreateTextPost extends React.Component<Props, State> {
     }
 }
 
-const CreateTextPostWithMutation = (graphql(TextPostCreation, {name: 'addTextPost'}) as any)(CreateTextPost);
+
+const CreateTextPostWithMutation = (graphql(TextPostCreation, {name: 'addTextPost'}) as any)(withSaving(CreateTextPost, {
+    graphqlSaveMethod: 'addTextPost',
+    graphqlQuery: TextPostQuery,
+    postType: TextPostQuery
+}));
 
 export default withApollo(CreateTextPostWithMutation);
