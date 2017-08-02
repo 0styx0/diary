@@ -11,7 +11,7 @@ import 'tinymce/plugins/image';
 import 'tinymce/plugins/paste';
 import 'tinymce/plugins/code';
 
-import { graphql, gql } from 'react-apollo';
+import { graphql, gql, withApollo } from 'react-apollo';
 
 import './index.css';
 
@@ -19,6 +19,9 @@ import { TextPostQuery, TextPostType } from '../../../graphql/textPosts';
 
 interface Props {
     addTextPost: Function;
+    client: {
+        query: Function
+    };
 }
 
 interface State {
@@ -41,7 +44,21 @@ class CreateTextPost extends React.Component<Props, State> {
         };
     }
 
+    /**
+     * Preload textposts (used in @see components/TextPostList)
+     * Reason: Since updating cache in @see saveToDB, graphql won't
+     * bother asking server for posts since it assumes it has them all
+     */
+    async fetchTextPosts() {
+
+        this.props.client.query({
+            query: TextPostQuery
+        });
+    }
+
     componentDidMount() {
+
+        this.fetchTextPosts();
 
         tinymce.init({
 
@@ -87,18 +104,18 @@ class CreateTextPost extends React.Component<Props, State> {
             },
             // store: apollo's cache, addTextPost: destructured return info from graphql
             update: (store, { data: { addTextPost } }) => {
-                this.updateStoreAfterPost(store, addTextPost, {title, content});
+                this.updateStoreAfterPost(store, addTextPost);
             }
         });
     }
 
-    updateStoreAfterPost(store, textPost: TextPostType, info) {
+    updateStoreAfterPost(store, textPost: TextPostType) {
 
         let storage;
 
         try {
             storage = store.readQuery({query: TextPostQuery});
-        } catch(e) {
+        } catch (e) {
             storage = {textPosts: []};
         }
 
@@ -140,4 +157,4 @@ const createTextPostMutation = gql`
 
 const CreateTextPostWithMutation = (graphql(createTextPostMutation, {name: 'addTextPost'}) as any)(CreateTextPost);
 
-export default CreateTextPostWithMutation;
+export default withApollo(CreateTextPostWithMutation);
