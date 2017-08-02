@@ -5,14 +5,9 @@ import TextPostList from '../../components/TextPostList/';
 function TextPosts() {
 
     return (
-            <Container
-                heading="Text Posts"
-                children={
-                    <div>
-                      <TextPostList />
-                    </div>
-                }
-            />
+            <Container heading="Text Posts">
+                <TextPostList />
+            </Container>
             );
 }
 

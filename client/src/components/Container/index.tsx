@@ -4,7 +4,7 @@ import './index.css';
 
 interface Props {
   heading: string;
-  children: Element[] | JSX.Element[] | JSX.Element;
+  children?: Element[] | JSX.Element[] | JSX.Element;
   className?: string;
 }
 

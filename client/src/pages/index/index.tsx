@@ -14,11 +14,8 @@ class Index extends React.Component<Props, {}> {
     render() {
 
         return (
-                 <Container
-                   heading="Main Page"
-                   children={<h3>Another</h3>}
-                 />
-                );
+            <Container heading="Main Page" />
+        );
     }
 }
 

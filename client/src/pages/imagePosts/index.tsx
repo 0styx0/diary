@@ -5,10 +5,9 @@ import ImagePostList from '../../components/ImagePostList/';
 function ImageAlbumPosts() {
 
     return (
-          <Container
-             heading="Image Albums"
-             children={<ImagePostList />}
-          />
+          <Container heading="Image Albums">
+            <ImagePostList />
+          </Container>
     );
 }
 

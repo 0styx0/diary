@@ -5,10 +5,9 @@ import VideoPostList from '../../components/VideoPostList/';
 function ImageAlbumPosts() {
 
     return (
-          <Container
-             heading="Videos"
-             children={<VideoPostList />}
-          />
+          <Container heading="Videos">
+             <VideoPostList />
+          </Container>
     );
 }
 
