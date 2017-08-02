@@ -3,8 +3,14 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { VideoPostCreation } from '../../../graphql/videoPosts/';
 
+import withSaving from '../withSaving';
+
 interface Props {
     mutate: Function;
+    progressSaver: {
+        onInput: (e: any) => null
+    };
+    dbSaver: any;
 }
 
 interface State {
@@ -18,47 +24,26 @@ class CreateVideoPost extends React.Component<Props, State> {
 
         super();
 
-        this.saveProgress = this.saveProgress.bind(this);
-        this.saveToDB = this.saveToDB.bind(this);
-
         this.state = {
             title: '',
             content: ''
         };
     }
 
-    saveProgress(e: any) {
-
-        const newState = {};
-
-        newState[e.target.name] = (e.target as HTMLInputElement).value;
-
-        this.setState(newState);
-    }
-
-    saveToDB(e: any) {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        this.props.mutate({variables: {
-            title: this.state.title,
-            content: this.state.content
-        }});
-    }
-
     render() {
 
         return (
-            <form onSubmit={this.saveToDB}>
-                <input type="text" name="title" onInput={this.saveProgress} />
-                <input type="text" name="content" onInput={this.saveProgress} />
+            <form onSubmit={this.props.dbSaver}>
+                <input type="text" name="title" {...this.props.progressSaver} />
+                <input type="text" name="content" {...this.props.progressSaver} />
                 <input type="submit" />
             </form>
             );
     }
 }
 
-const CreateVideoPostWithMutation = (graphql(VideoPostCreation) as any)(CreateVideoPost);
+const CreateVideoPostWithMutation = (graphql(VideoPostCreation) as any)(withSaving(CreateVideoPost, {
+    graphqlSaveMethod: 'mutate'
+}));
 
 export default CreateVideoPostWithMutation;
