@@ -1,12 +1,11 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as graphsqlHTTP from 'express-graphql';
 import addUserToDb from './src/helpers/addUserToDb';
 import googleAuth from './src/helpers/verifyGoogleAuth';
 import * as jsonwebtoken from 'jsonwebtoken';
 import config from './config';
 
-
+import { graphqlExpress } from 'apollo-server-express';
 
 import schema from './src/schema';
 
@@ -98,9 +97,6 @@ app.post('/signin', async function(req, res) {
 //     }
 // });
 
-app.use('/api', graphsqlHTTP({
-    schema,
-    graphiql: true
-}))
+app.use('/api', graphqlExpress({schema}))
 
 app.listen(4000);
