@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as path from 'path'; // when running React's build
 import addUserToDb from './src/helpers/addUserToDb';
 import googleAuth from './src/helpers/verifyGoogleAuth';
 import * as jsonwebtoken from 'jsonwebtoken';
@@ -98,5 +99,16 @@ app.post('/signin', async function(req, res) {
 // });
 
 app.use('/api', graphqlExpress({schema}))
+
+const logger = require('morgan')
+app.use(logger('dev'))
+
+// NOTE: This is for when running React's build
+app.use(express.static(path.join(__dirname+'/../../client/build/')));
+
+// for 404s/for when users go directly to page, this must be there else react won't work
+app.use(function(req, res, next) {
+    res.sendFile(path.join(__dirname+'/../../client/build/index.html'));
+});
 
 app.listen(4000);
