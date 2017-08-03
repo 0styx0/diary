@@ -17,6 +17,7 @@ const VideoPostCreation = gql`
             id
             title
             content
+            created
         }
     }`;
 

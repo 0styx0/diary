@@ -17,6 +17,7 @@ const ImageAlbumPostCreation = gql`
             id
             title
             content
+            created
         }
     }`;
 

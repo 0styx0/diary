@@ -34,7 +34,7 @@ class CreateVideoPost extends React.Component<Props, State> {
 
 const CreateVideoPostWithMutation = (graphql(VideoPostCreation) as any)(withSaving(CreateVideoPost, {
     graphqlSaveMethod: 'mutate',
-    graphqlQuery: VideoPostQuery
+    graphqlQuery: VideoPostQuery,
 }));
 
 export default CreateVideoPostWithMutation;

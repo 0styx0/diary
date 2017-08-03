@@ -1,14 +1,19 @@
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-import { ImageAlbumPostCreation } from '../../../graphql/imageAlbums/';
+import { ImageAlbumPostCreation, ImageAlbumPostQuery } from '../../../graphql/imageAlbums/';
+import withSaving from '../withSaving';
 
 interface Props {
     mutate: Function;
+    progressSaver: {
+        onInput: (e: any) => null
+    };
+    dbSaver: any;
+    setHocState: Function;
 }
 
 interface State {
     inputs: string[]; // should be HTMLInputElement[] but ts throws errors when I do that
-    title: string;
 }
 
 class CreateAlbumPost extends React.Component<Props, State> {
@@ -17,12 +22,10 @@ class CreateAlbumPost extends React.Component<Props, State> {
         super();
 
         this.addInput = this.addInput.bind(this);
-        this.saveToDb = this.saveToDb.bind(this);
         this.saveUrlProgress = this.saveUrlProgress.bind(this);
 
         this.state = {
-            inputs: [''],
-            title: ''
+            inputs: ['']
         };
     }
 
@@ -33,37 +36,29 @@ class CreateAlbumPost extends React.Component<Props, State> {
         });
     }
 
+    // since the content isn't a string, not setting it directly from the hoc like all the other publish components
     saveUrlProgress(e: any) {
 
         const inputs = this.state.inputs.slice();
 
         inputs[e.target.dataset.index] = e.target.value;
 
+        this.props.setHocState({
+            content: inputs
+        });
+
         this.setState({
             inputs
-        });
-    }
-
-    saveToDb(e: any) {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        this.props.mutate({
-            variables: {
-                content: this.state.inputs,
-                title: this.state.title
-            }
         });
     }
 
     render() {
 
         return (
-               <form onSubmit={this.saveToDb}>
+               <form onSubmit={this.props.dbSaver}>
                  <label>
                    Title
-                   <input type="text" onChange={(e: any) => this.setState({title: e.target.value})}/>
+                   <input type="text" name="title" {...this.props.progressSaver} />
                  </label>
                  {this.state.inputs.map((val: string, i: number) =>
                      <input
@@ -80,6 +75,9 @@ class CreateAlbumPost extends React.Component<Props, State> {
     }
 }
 
-const CreateAlbumPostWithMutation = (graphql(ImageAlbumPostCreation) as any)(CreateAlbumPost);
+const CreateAlbumPostWithMutation = (graphql(ImageAlbumPostCreation) as any)(withSaving(CreateAlbumPost, {
+    graphqlSaveMethod: 'mutate',
+    graphqlQuery: ImageAlbumPostQuery,
+}));
 
 export default CreateAlbumPostWithMutation;
