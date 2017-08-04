@@ -18,26 +18,32 @@ interface googleJWT {
     email_verified: boolean;
 }
 
-async function authenticate(token: string): Promise<googleJWT | null> {
+async function authenticate(token: string): Promise<googleJWT> {
 
-    if (!token) {
-        return null;
-    }
+        var auth = new GoogleAuth;
+        var client = new auth.OAuth2(config.googleClientId, '', '');
 
-    const keyToUse = JSON.parse(atob(token.split('.')[0])).kid;
+        const payload = await new Promise((resolve: Function, reject: Function) => {
 
-    const jwt = <googleJWT> await jsonwebtoken.verify(token, config.googleJWTCerts[keyToUse], {algorithms: ['RS256']});
+            client.verifyIdToken(
+                token,
+                config.googleClientId,
 
-    if (jwt.email_verified && jwt.aud === config.googleClientId &&
-        ['accounts.google.com', 'https://accounts.google.com'].indexOf(jwt.iss) !== -1) {
+                function(e: any, login: {getPayload: Function}) {
 
-            return jwt;
+                    if (login && login.getPayload().email_verified) {
 
-    }
-    else {
+                        resolve(login.getPayload() as googleJWT);
+                    }
+                    else {
 
-        return null;
-    }
+                        reject('Invalid token');
+                    }
+                }
+            );
+        });
+
+        return payload as googleJWT;
 }
 
 export default authenticate;
