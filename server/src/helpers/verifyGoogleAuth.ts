@@ -1,7 +1,10 @@
-import * as jsonwebtoken from 'jsonwebtoken';
+// import * as jsonwebtoken from 'jsonwebtoken';
 import config from '../../config';
-import * as atob from 'atob';
+// import * as atob from 'atob';
 
+
+
+var GoogleAuth = require('google-auth-library');
 
 
 
