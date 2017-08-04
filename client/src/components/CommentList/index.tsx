@@ -1,6 +1,7 @@
 import * as React from 'react';
 import CommentContainer from '../Comment/container';
 import EditableCommentContainer from '../Comment/Editable/container';
+import withProtection from '../withProtection';
 
 interface Props {
     postId: string;
@@ -13,9 +14,10 @@ interface Props {
             lastName: string;
         };
     }>;
+    email: string;
 }
 
-export default function CommentList(props: Props) {
+function CommentList(props: Props) {
 
     if (!props.comments) {
         return <span />;
@@ -36,8 +38,9 @@ export default function CommentList(props: Props) {
                 />
             )
         }
-        {sessionStorage.getItem('jwt') ? <EditableCommentContainer postId={props.postId} /> : ''}
+        {props.email ? <EditableCommentContainer postId={props.postId} /> : ''}
         </div>
     );
-
 }
+
+export default withProtection(CommentList as any);

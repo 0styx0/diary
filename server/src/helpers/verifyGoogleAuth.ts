@@ -18,7 +18,11 @@ interface googleJWT {
     email_verified: boolean;
 }
 
-async function authenticate(token: string): Promise<googleJWT> {
+async function authenticate(token: string): Promise<googleJWT | false> {
+
+        if (!token) {
+            return false;
+        }
 
         var auth = new GoogleAuth;
         var client = new auth.OAuth2(config.googleClientId, '', '');

@@ -13,6 +13,7 @@ class Login extends React.Component<{}, {}> {
       this.userChanged = this.userChanged.bind(this);
       this.appStart = this.appStart.bind(this);
       this.signinChanged = this.signinChanged.bind(this);
+      this.refreshValues = this.refreshValues.bind(this);
   }
   /**
    * Calls startAuth after Sign in V2 finishes setting up.
@@ -88,6 +89,28 @@ class Login extends React.Component<{}, {}> {
    * Updates the properties in the Google User table using the current user.
    */
   updateGoogleUser() {
+
+    // sign out user
+    if (sessionStorage.getItem('jwt')) {
+
+      this.auth2.signOut();
+
+      fetch('http://localhost:4000/signin', {
+        method: 'post',
+        body: JSON.stringify({googleJwt: ''}),
+        headers: {
+              'Content-Type': 'application/json',
+              'Authorization': JSON.stringify('')
+          }
+      })
+      .then(response => response.text())
+      .then(text => {
+
+        window.sessionStorage.setItem('jwt', '');
+        let event = new StorageEvent('storage');
+        dispatchEvent(event);
+      });
+    }
 
     if (this.googleUser) {
         this.googleUser.getGrantedScopes();

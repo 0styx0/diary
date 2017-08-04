@@ -1,5 +1,5 @@
 import * as React from 'react';
-import withProtection from './withProtection';
+import withProtection from './../../withProtection';
 import { Route } from 'react-router-dom';
 
 import PublishText from '../../../pages/publish/text';
