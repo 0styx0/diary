@@ -56,8 +56,8 @@ const TextPostCreation = gql`
     }`;
 
 const TextPostDeletion = gql`
-    mutation deleteTextPostComment($postId: String!, $commentId: String!) {
-        deleteTextPostComment(postId: $postId, commentId: $commentId) {
+    mutation deleteTextPost($id: String!) {
+        deleteTextPost(id: $id) {
             id
         }
     }`;

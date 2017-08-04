@@ -34,13 +34,14 @@ function TextPostList(props: Props) {
                         created={post.created}
                         id={post.id}
                         comments={post.comments}
-                        onDelete={() =>
+                        onDelete={() => {
 
                             props.deleteTextPostMutation({
                                 variables: {
                                     id: post.id
                                 }
                             })
+                        }
                         }
                     />)}
             </div>
