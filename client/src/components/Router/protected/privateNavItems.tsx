@@ -3,7 +3,7 @@ import withProtection from './withProtection';
 import { Link } from 'react-router-dom';
 
 
-function PrivateNavItems(props) {
+function PrivateNavItems(props: {admin: boolean}) {
 
     if (props.admin) {
 

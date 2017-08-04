@@ -85,7 +85,6 @@ class CreateTextPost extends React.Component<Props, State> {
     }
 }
 
-
 const CreateTextPostWithMutation =
     (graphql(TextPostCreation, {name: 'addTextPost'}) as any)
     (withSaving(CreateTextPost, {

@@ -27,7 +27,7 @@ export default function withProtection(WrappedComponent: typeof React.Component)
                 admin: this.state.admin
             };
 
-            return <WrappedComponent {...this.props} {...addedProps}/>
+            return <WrappedComponent {...this.props} {...addedProps}/>;
         }
-    }
+    };
 }

@@ -67,7 +67,7 @@ class Login extends React.Component<{}, {}> {
     .then(response => response.text())
     .then(text => {
 
-      window.sessionStorage.setItem('jwt', text)
+      window.sessionStorage.setItem('jwt', text);
       let event = new StorageEvent('storage');
       dispatchEvent(event);
     });

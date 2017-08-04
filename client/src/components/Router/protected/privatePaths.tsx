@@ -1,13 +1,12 @@
 import * as React from 'react';
 import withProtection from './withProtection';
-import { Route } from 'react-router-dom'
+import { Route } from 'react-router-dom';
 
 import PublishText from '../../../pages/publish/text';
 import PublishImageAlbum from '../../../pages/publish/album';
 import PublishVideo from '../../../pages/publish/video';
 
-
-function PrivatePaths(props) {
+function PrivatePaths(props: {admin: boolean}) {
 
     if (props.admin) {
         return (
