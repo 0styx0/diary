@@ -1,0 +1,27 @@
+.mainPage {
+    background-image: url("https://media-cdn.tripadvisor.com/media/photo-o/0e/cd/51/c2/el-al-israel-airlines.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+    height: auto;
+    width: auto;
+    margin-top: -9%; /* navbar has margin bottom of 9% */
+}
+
+.purple {
+    color: #CC00FF;
+}
+
+.bioContainer {
+    width: 65vw;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 1.5rem;
+}
+
+.socialMedia {
+    position: fixed;
+    bottom: 0;
+}
