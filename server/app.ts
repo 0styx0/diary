@@ -75,28 +75,38 @@ app.post('/signin', async function(req, res) {
     }
 });
 
-// app.use(function(req, res, next) {
+app.use(function(req, res, next) {
 
-//     interface jwt {
-//         firstName: string;
-//         lastName: string;
-//         id: string;
-//         email: string;
-//     }
+    interface jwt {
+        firstName: string;
+        lastName: string;
+        id: string;
+        email: string;
+    }
 
-//     const token = (req.get("authorization") || '').split('Bearer ')[1];
+    const token = (req.get("authorization") || '').split('Bearer ')[1];
 
-//     if (req.body.query &&
-//         req.body.query.indexOf('mutation') !== -1 &&
-//         (!token || (jsonwebtoken.verify(token, config.jwtSecret) as jwt).id != config.admin)) {
+    const whitelistedMutations = [ // non admins can do this
+        "addTextPostComment"
+    ];
 
-//         return res.status(400).end();
-//     }
-//     else {
+    const jwt = token ? jsonwebtoken.verify(token, config.jwtSecret) as jwt : {id: null};
 
-//         next();
-//     }
-// });
+    // id is just a random field, just making sure the jwt is valid
+    const canAccessWhitelistedMutations = !!jwt.id && whitelistedMutations.indexOf(req.body.operationName) !== -1;
+
+    const isMutation = req.body.query && req.body.query.indexOf('mutation') !== -1;
+    const invalidToken = !token || jwt.id != config.admin;
+
+    if (invalidToken &&  isMutation && !canAccessWhitelistedMutations) {
+
+        return res.status(400).end();
+    }
+    else {
+
+        next();
+    }
+});
 
 app.use('/api', graphqlExpress({schema}))
 
