@@ -2,6 +2,7 @@ import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import TextPost from '../TextPost';
 import { ImageAlbumPostQuery, ImageAlbumPostDeletion } from '../../graphql/imageAlbums/';
+import Graphql from '../../helpers/graphql';
 
 interface TextPost {
     title: string;
@@ -21,16 +22,14 @@ interface Props {
 
 function ImageAlbumPostList(props: Props) {
 
-    const data = props.data;
-
-    if (data.loading) {
+    if (props.data.loading) {
         return null;
     }
 
     return (
             <div className="postListContainer">
               <div>
-                {data.imageAlbumPosts.map((post: TextPost, j: number) => {
+                {props.data.imageAlbumPosts.map((post: TextPost, j: number) => {
 
                     let src = '';
 
@@ -47,6 +46,14 @@ function ImageAlbumPostList(props: Props) {
                                     props.deleteImageAlbumPostMutation({
                                         variables: {
                                             id: post.id
+                                        },
+                                        update(store, { data }) {
+
+                                            Graphql.removeFromStore(
+                                                store,
+                                                data.deleteImageAlbumPost.id,
+                                                ImageAlbumPostQuery
+                                            );
                                         }
                                     })
                                 }

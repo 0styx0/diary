@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { withApollo } from 'react-apollo';
+import Graphql from '../../helpers/graphql';
 
 interface Options {
     graphqlSaveMethod: string; // what graphql name will save title and content to db
@@ -71,29 +72,9 @@ function withSaving(WrappedComponent, options: Options) {
                 // store: apollo's cache, addTextPost: destructured return info from graphql
                 update: (store, { data }) => {
 
-                    this.updateStoreAfterPost(store, Object.values(data)[0]);
+                    Graphql.updateStore(store, options.graphqlQuery, Object.values(data)[0]);
                 }
             });
-        }
-
-        updateStoreAfterPost(store, newPost) {
-
-            let storage;
-
-            // gets the query resolver name (example: when getting a text post, the resolver is textPosts,
-            // @see src/graphql/textPosts/index.tsx)
-            const postQueryName = options.graphqlQuery.definitions[0].selectionSet.selections[0].name.value;
-
-            try {
-                storage = store.readQuery({query: options.graphqlQuery}); // if post type is already in the cache
-            } catch (e) {
-                storage = {};
-                storage[postQueryName] = [];
-            }
-
-            storage[postQueryName].push(newPost);
-
-            store.writeQuery({query: options.graphqlQuery, data: storage });
         }
 
         render() {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import TextPost from '../TextPost';
-
+import Graphql from '../../helpers/graphql';
 import './index.css';
 
 import { TextPostQuery, TextPostDeletion, TextPostType } from '../../graphql/textPosts/';
@@ -17,16 +17,14 @@ interface Props {
 
 function TextPostList(props: Props) {
 
-    const data = props.data;
-
-    if (!data.textPosts) {
+    if (!props.data.textPosts) {
         return null;
     }
 
     return (
         <div className="postListContainer">
             <div>
-                {data.textPosts.map((post: TextPostType, i: number) =>
+                {props.data.textPosts.map((post: TextPostType, i: number) =>
                     <TextPost
                         key={i}
                         title={post.title}
@@ -39,10 +37,13 @@ function TextPostList(props: Props) {
                             props.deleteTextPostMutation({
                                 variables: {
                                     id: post.id
+                                },
+                                update(store, { data }) {
+
+                                    Graphql.removeFromStore(store, data.deleteTextPost.id, TextPostQuery);
                                 }
                             })
-                        }
-                        }
+                        }}
                     />)}
             </div>
         </div>

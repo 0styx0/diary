@@ -2,6 +2,7 @@ import * as React from 'react';
 import { graphql, compose } from 'react-apollo';
 import TextPost from '../TextPost';
 import { VideoPostQuery, VideoPostDeletion } from '../../graphql/videoPosts/';
+import Graphql from '../../helpers/graphql';
 
 interface TextPost {
     title: string;
@@ -19,48 +20,42 @@ interface Props {
     deleteVideoPostMutation: Function;
 }
 
-class VideoPostList extends React.Component<Props, {}> {
+function VideoPostList(props: Props) {
 
-    constructor() {
-        super();
-        // this.deletePost = this.deletePost.bind(this);
+    if (!props.data.videoPosts) {
+        return null;
     }
 
-    render() {
+    return (
+        <div className="postListContainer">
+            <div>
+                {props.data.videoPosts.map((post: TextPost, j: number) =>
 
-        const data = this.props.data;
+                    <div key={j}>
+                        <TextPost
+                            title={post.title}
+                            content={
+                                '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
+                            }
+                            created={post.created}
+                            onDelete={(e) =>
 
-        if (!data.videoPosts) {
-            return null;
-        }
+                                props.deleteVideoPostMutation({
+                                    variables: {
+                                        id: post.id
+                                    },
+                                    update(store, { data }) {
 
-        return (
-            <div className="postListContainer">
-                <div>
-                    {data.videoPosts.map((post: TextPost, j: number) =>
-
-                        <div key={j}>
-                            <TextPost
-                                title={post.title}
-                                content={
-                                    '<embed width="320" height="240" src="' + post.content + '" allowfullscreen />'
-                                }
-                                created={post.created}
-                                onDelete={(e) =>
-
-                                    this.props.deleteVideoPostMutation({
-                                        variables: {
-                                            id: post.id
-                                        }
-                                    })
-                                }
-                            />
-                        </div>
-                    )}
-                </div>
+                                        Graphql.removeFromStore(store, data.deleteVideoPost.id, VideoPostQuery);
+                                    }
+                                })
+                            }
+                        />
+                    </div>
+                )}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const ImageAlbumPostListWithData = compose(
