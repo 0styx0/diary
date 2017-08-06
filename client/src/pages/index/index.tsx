@@ -1,5 +1,7 @@
 import * as React from 'react';
-import Container from '../../components/Container';
+import './index.css';
+
+import config from '../../config';
 
 interface Props {
     data: {
@@ -9,14 +11,15 @@ interface Props {
     };
 }
 
-class Index extends React.Component<Props, {}> {
-
-    render() {
+function Index(props: Props) {
 
         return (
-            <Container heading="Main Page" />
+            <div className="mainPage">
+                <div className="bioContainer">
+                    <p className="purple">{config.bio}</p>
+                </div>
+           </div>
         );
-    }
 }
 
 export default Index;

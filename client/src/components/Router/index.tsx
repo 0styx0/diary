@@ -27,11 +27,11 @@ export default function Router() {
                 </ul>
             </nav>
             <Switch>
+                <Route exact path="/" component={Index}/>
                 <Route path="/entries/text" component={TextPosts}/>
                 <Route path="/entries/imageAlbums" component={ImageAlbumPosts}/>
                 <Route path="/entries/video" component={VideoPosts}/>
                 <PrivatePaths />
-                <Route path="/" component={Index}/>
             </Switch>
         </div>
         );
