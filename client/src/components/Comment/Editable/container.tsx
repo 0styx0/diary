@@ -3,6 +3,7 @@ import  EditableComment from './';
 import getJWT from '../../../helpers/getJWT';
 import { graphql } from 'react-apollo';
 import { TextPostCommentCreation } from '../../../graphql/textPosts/comment';
+import { TextPostQuery } from '../../../graphql/textPosts';
 import { markdown } from 'markdown';
 
 interface Props {
@@ -31,11 +32,44 @@ class EditableCommentContainer extends React.Component<Props, State> {
 
     onSave(e: Event) {
 
+        const comment = (e.target as HTMLButtonElement).parentElement!.querySelector('[contenteditable]')!;
+        const content = comment.textContent;
+
         this.props.mutate({
             variables: {
                 postId: this.props.postId,
                 authorId: getJWT().id,
-                content: (e.target as HTMLButtonElement).parentElement!.querySelector('[contenteditable]')!.textContent
+                content
+            },
+            update: (store) => {
+
+                comment.textContent = '';
+
+                const jwt = getJWT();
+
+                const storage = store.readQuery({query: TextPostQuery}); // if post type is already in the cache
+                const newComment = {// there's an error in graphql if try to get this
+                    content,
+                    authorId: getJWT().id,
+                    created: new Date(),
+                    id: new Date(),
+                    __typename: 'Comment',
+                    author: {
+                        firstName: jwt.firstName,
+                        lastName: jwt.lastName,
+                        __typename: 'User'
+                    }
+                };
+
+                storage.textPosts = storage.textPosts.map(post => {
+
+                    if (post.id === this.props.postId) {
+                        post.comments.push(newComment);
+                    }
+                    return post;
+                });
+
+                store.writeQuery({query: TextPostQuery, data: storage });
             }
         });
     }

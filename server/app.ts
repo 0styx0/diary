@@ -100,7 +100,7 @@ app.use(function(req, res, next) {
 
     if (invalidToken &&  isMutation && !canAccessWhitelistedMutations) {
 
-        return res.status(400).end();
+        return res.status(400).end('Invalid JWT');
     }
     else {
 

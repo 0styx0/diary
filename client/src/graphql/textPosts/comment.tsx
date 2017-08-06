@@ -3,6 +3,8 @@ import { gql } from 'react-apollo';
 const TextPostCommentCreation = gql`
     mutation addTextPostComment($postId: String!, $authorId: String!, $content: String!) {
         addTextPostComment(postId: $postId, authorId: $authorId, content: $content) {
+            content,
+            created,
             id
         }
     }`;
