@@ -1,0 +1,10 @@
+.textPosts {
+    background-image: url("/textPostBackground.jpg");
+    background-repeat: no-repeat;
+    background-position: center -9vh;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+    height: auto;
+    width: auto;
+}
